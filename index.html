@@ -16,8 +16,9 @@
 .note{background:#13273a;border:1px solid var(--line);border-radius:12px;padding:14px 18px;color:var(--muted);margin-bottom:18px}
 /* master content compatibility */
 .wrap{max-width:1100px;margin:0 auto;padding:12px 0 80px} .hero{padding:30px 24px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,#15283a,#0f1d2b);margin-bottom:24px}
-.hero h1{font-size:38px;margin:0 0 8px} .hero .sub{font-size:20px;color:var(--accent)} nav{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
-nav a{color:var(--text);text-decoration:none;border:1px solid var(--line);padding:7px 10px;border-radius:8px;background:#102031}
+.hero h1{font-size:38px;margin:0 0 8px} .hero .sub{font-size:20px;color:var(--accent)} nav{margin:16px 0}
+nav .inner{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-start}
+nav a{display:inline-flex;align-items:center;justify-content:center;color:var(--text);text-decoration:none;border:1px solid var(--line);padding:7px 12px;border-radius:8px;background:#102031;white-space:nowrap}
 section{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;margin:18px 0} h2{color:var(--accent)} h3{margin-top:26px;color:#b9eaff}
 p,li{color:#dce8f5} table{width:100%;border-collapse:collapse;margin:14px 0} th,td{border:1px solid var(--line);padding:9px;vertical-align:top} th{background:var(--panel2)}
 .flow,pre{white-space:pre-wrap;background:#0e1c29;border:1px solid var(--line);border-radius:10px;padding:14px;overflow:auto;color:#eaf5ff}
@@ -43,7 +44,7 @@ function showTab(id,btn){
 <div class="note"><strong>현재 기준 문서.</strong> Codex/Astra에는 이 MASTER 탭의 최신 확정사항을 우선 적용한다. 과거 내용과 충돌하면 최신 버전 항목이 우선한다.</div>
 
 <nav><div class="inner">
-<a href="#s1">1장 문서 목적</a>
+<a href="#s1">문서 목적</a>
 <a href="#s2">게임 기본 기획</a>
 <a href="#s3">10개 스테이지</a>
 <a href="#s4">타자 액션</a>
