@@ -1,0 +1,1103 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>낭만고양이 Alpha 0.2.0 MASTER / HISTORY</title>
+<style>
+:root{--bg:#09111a;--panel:#132334;--panel2:#182c40;--text:#eef6ff;--muted:#b7c8d8;--line:#304a62;--accent:#79d7ff;--gold:#ffd166}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif;line-height:1.7}
+.top{position:sticky;top:0;z-index:999;background:rgba(9,17,26,.96);border-bottom:1px solid var(--line);padding:12px}
+.tabs{max-width:1120px;margin:auto;display:flex;gap:10px} .tabbtn{border:1px solid var(--line);background:#10202f;color:var(--text);padding:11px 18px;border-radius:10px;font-weight:700;cursor:pointer}
+.tabbtn.active{background:var(--accent);color:#07111a} .tab{display:none} .tab.active{display:block}
+.shell{max-width:1180px;margin:auto;padding:20px 18px 80px}
+.history-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin:16px 0}
+.history-card.latest{border-color:var(--gold)} .history-card h3{margin-top:0;color:var(--accent)} .history-card.latest h3{color:var(--gold)}
+.note{background:#13273a;border:1px solid var(--line);border-radius:12px;padding:14px 18px;color:var(--muted);margin-bottom:18px}
+/* master content compatibility */
+.wrap{max-width:1100px;margin:0 auto;padding:12px 0 80px} .hero{padding:30px 24px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,#15283a,#0f1d2b);margin-bottom:24px}
+.hero h1{font-size:38px;margin:0 0 8px} .hero .sub{font-size:20px;color:var(--accent)} nav{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+nav a{color:var(--text);text-decoration:none;border:1px solid var(--line);padding:7px 10px;border-radius:8px;background:#102031}
+section{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;margin:18px 0} h2{color:var(--accent)} h3{margin-top:26px;color:#b9eaff}
+p,li{color:#dce8f5} table{width:100%;border-collapse:collapse;margin:14px 0} th,td{border:1px solid var(--line);padding:9px;vertical-align:top} th{background:var(--panel2)}
+.flow,pre{white-space:pre-wrap;background:#0e1c29;border:1px solid var(--line);border-radius:10px;padding:14px;overflow:auto;color:#eaf5ff}
+blockquote{border-left:4px solid var(--gold);padding:8px 14px;background:#101f2d} .footer{color:var(--muted);text-align:center;margin-top:25px}
+</style>
+<script>
+function showTab(id,btn){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tabbtn').forEach(x=>x.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</head>
+<body>
+<div class="top"><div class="tabs">
+<button class="tabbtn active" onclick="showTab('master',this)">MASTER · 현재 기준</button>
+<button class="tabbtn" onclick="showTab('history',this)">HISTORY · 업데이트 이력</button>
+</div></div>
+
+<div id="master" class="tab active"><div class="shell">
+<div class="note"><strong>현재 기준 문서.</strong> Codex/Astra에는 이 MASTER 탭의 최신 확정사항을 우선 적용한다. 과거 내용과 충돌하면 최신 버전 항목이 우선한다.</div>
+
+<nav><div class="inner">
+<a href="#s1">문서 목적</a>
+<a href="#s2">게임 기본 기획</a>
+<a href="#s3">10개 스테이지</a>
+<a href="#s4">타자 액션</a>
+<a href="#s5">적 애니메이션</a>
+<a href="#s6">묵찌빠</a>
+<a href="#s11">마스터 프롬프트</a>
+<a href="#s13">Alpha 0.1.2 개선</a>
+<a href="#s14">Alpha 0.2.0 최신</a>
+<a href="#s15">09-10 전투/UI/AI</a>
+</div></nav>
+<div class="wrap">
+<div class="hero">
+  <span class="badge">MASTER SPEC</span>
+  <h1>낭만고양이</h1>
+  <div class="sub">A Cat’s Journey Home</div>
+  <div class="desc">게임 개발 · 스토리 시나리오 · 전투/애니메이션 레퍼런스 · Astra/Codex 개발 프롬프트 마스터 자료</div>
+</div>
+
+<p>낭만고양이</p>
+<p>A Cat’s Journey Home</p>
+<p>게임 개발 · 스토리 시나리오 · 전투/애니메이션 레퍼런스 · Astra/Codex 개발 프롬프트 마스터 자료</p>
+<div class="flow">Android / Portrait / Retro Pixel Art / Korean Typing Action Adventure</div>
+<p>기준 버전: 2026-09-09</p>
+<section id="s1"><h2>1. 문서 목적과 최우선 개발 원칙</h2>
+<p>이 문서는 현재까지 확정된 《낭만고양이》의 스토리, 10개 스테이지, 적·보스, 타자 액션, 묵찌빠 지원 시스템, 애니메이션 기준과 AI 개발 프롬프트를 한 문서에 통합한 마스터 자료다.</p>
+<ul><li>현재 제공되는 Android Studio 프로젝트가 유일한 기준 프로젝트다.</li><li>새 Android 프로젝트를 생성하거나 기존 프로젝트를 통째로 교체하지 않는다.</li><li>기존 코드·Gradle·리소스·한글 IME·HUD·묵찌빠 등 정상 기능을 먼저 분석하고 보존한다.</li><li>자료 학습 → 프로젝트 분석 → 기획 대비 Gap 분석 → 수정안 제안 → 사용자 승인 → 기존 프로젝트 내부 수정 순서를 지킨다.</li><li>텍스트 기획과 AI 생성 레퍼런스 이미지가 충돌할 경우 이 문서의 확정 설정을 우선한다.</li></ul>
+<h3>개발 작업 흐름</h3>
+<div class="flow">자료/레퍼런스 분석 → 현재 Android 프로젝트 Build/구조 분석 → 현재 구현 목록 → Gap Analysis → 수정안 제안 → 승인 → Stage 1 Vertical Slice → Emulator Test → Stage 2~10 확장 → 회귀 테스트 → Debug APK</div>
+</section>
+<section id="s2"><h2>2. 게임 기본 기획</h2>
+<table>
+<tr>
+<th>게임명</th>
+<th>낭만고양이</th>
+</tr>
+<tr>
+<td>영문 부제</td>
+<td>A Cat’s Journey Home</td>
+</tr>
+<tr>
+<td>장르</td>
+<td>2D 횡스크롤 액션 어드벤처</td>
+</tr>
+<tr>
+<td>플랫폼</td>
+<td>Android 스마트폰</td>
+</tr>
+<tr>
+<td>화면</td>
+<td>세로형 Portrait</td>
+</tr>
+<tr>
+<td>그래픽</td>
+<td>고전 16/32-bit 감성 레트로 픽셀아트</td>
+</tr>
+<tr>
+<td>주인공</td>
+<td>가족과 헤어진 턱시도 고양이</td>
+</tr>
+<tr>
+<td>핵심 주제</td>
+<td>집은 장소가 아니었다. 함께 있는 곳이, 집이었다.</td>
+</tr>
+</table>
+<p>재개발 철거 과정에서 엄마와 형제들과 헤어진 턱시도 고양이가 가족의 흔적을 따라 하천, 시장, 도심, 놀이터, 공업지대, 아파트, 폭우 속 고가도로, 하수도를 거쳐 주택가에서 가족과 재회하는 여정을 다룬다.</p>
+<p>모든 적을 단순한 악당으로 만들지 않는다. 동물은 생존·영역·두려움·배고픔 때문에 충돌하며, 인간과 도시 환경은 작은 고양이의 시점에서 거대한 위험으로 표현한다. 가능한 한 적은 죽지 않고 물러나거나 도망간다.</p>
+</section>
+<section id="s3"><h2>3. 10개 스테이지 스토리 시나리오</h2>
+<h3>STAGE 1. 재개발 지역 — 「사라진 집」</h3>
+<p>일반 적/위협: 까마귀, 들개/경비견, 철거 인부, 공사 차량, 낙하물</p>
+<p>보스: 철거반 작업반장</p>
+<p>주요 패턴: 망치 던지기 / 뛰어서 추격 / 소리 지르기</p>
+<p>시나리오: 철거 혼란으로 가족과 헤어진다. 보스전 뒤 엄마와 형제들의 발자국이 하천 방향으로 이어진다.</p>
+<h3>STAGE 2. 하천 / 강가 — 「너도 혼자구나」</h3>
+<p>일반 적/위협: 하천 쥐, 까마귀, 물고기, 왜가리, 떠돌이 개</p>
+<p>보스: 버려진 들강아지</p>
+<p>주요 패턴: 돌진 / 물기 / 짖기</p>
+<p>시나리오: 패배 후 오래된 목줄 자국을 통해 버려진 존재임을 알게 된다. 가족이 시장 방향으로 갔다는 단서를 얻는다.</p>
+<h3>STAGE 3. 시장 골목 — 「먹을 것이 있는 곳」</h3>
+<p>일반 적/위협: 시장 쥐, 비둘기/까마귀, 영역 고양이, 배달 오토바이, 손수레</p>
+<p>보스: 시장 대장 고양이</p>
+<p>주요 패턴: 앞발 연타 / 덮치기 / 하악질</p>
+<p>시나리오: 대장이 냄새를 맡고 엄마와 새끼들이 먹이를 구한 뒤 도심으로 이동했다고 알려준다. 가족 생존의 첫 확실한 단서.</p>
+<h3>STAGE 4. 밤의 도심 — 「불빛 속의 그림자」</h3>
+<p>일반 적/위협: 도시 쥐, 비둘기, 길고양이, 자전거, 오토바이, 자동차, 사람 발</p>
+<p>보스: 술 취한 아저씨</p>
+<div class="flow">주요 패턴: 비틀거림 / 발차기 / 빈 캔 던지기 / 추격 / 소리</div>
+<p>시나리오: 직접 쓰러뜨리기보다 회피 중심. 취객은 지치거나 스스로 넘어진다. 가족이 오래된 놀이터 쪽으로 이동했다는 단서.</p>
+<h3>STAGE 5. 오래된 놀이터 — 「잊힌 기억」</h3>
+<p>일반 적/위협: 장난감 병정, 고양이 인형, 장난감 자동차, 태엽 로봇, 고장 난 드론</p>
+<p>보스: 오래된 대형 로봇</p>
+<div class="flow">주요 패턴: 로켓 펀치 / 레이저 / 미사일 / SYSTEM ERROR</div>
+<p>시나리오: 폭발해 죽지 않고 전원이 꺼진다. 마지막 순간 자신을 사랑했던 어린 주인의 손과 웃음, 포옹을 기억하며 &#x27;고마워…&#x27;라는 정서를 남긴다.</p>
+<h3>STAGE 6. 공업·창고지대 — 「지켜야 하는 것」</h3>
+<p>일반 적/위협: 경비견, 감시 드론, 지게차, 운반 로봇, 작업 인부, 순찰 로봇, 낙하 화물</p>
+<p>보스: 경비견 대장</p>
+<div class="flow">주요 패턴: 돌진 / 물기 / 앞발 내려찍기 / 짖기</div>
+<p>시나리오: 엄마의 털과 약간의 피, 새끼들의 발자국을 발견한다. 엄마가 다쳤지만 새끼들을 지키며 계속 이동했음을 알게 된다.</p>
+<h3>STAGE 7. 아파트 단지 — 「상처받은 아이」</h3>
+<p>일반 적/위협: 자전거 아이, 롤러블레이드 아이, 스케이트보드 아이, 장난치는 아이, 단지 길고양이</p>
+<p>보스: 상처 많은 고등학생</p>
+<div class="flow">주요 패턴: 발차기 / 돌멩이 / 추격 / 소리</div>
+<p>시나리오: 스트레스를 약한 존재에게 푸는 행동을 정당화하지 않는다. 마지막 공격을 멈추고 어릴 적 길고양이에게 먹이를 주던 기억을 떠올린다. 비가 시작된다.</p>
+<h3>STAGE 8. 폭우 속 고가도로 — 「그래도 가야 해」</h3>
+<p>일반 적/위협: 들개, 까마귀, 차량 물보라, 도로 장애물, 쓰레기통, 낙하물, 침수 웅덩이</p>
+<p>보스: 들개 무리 대장</p>
+<div class="flow">주요 패턴: 돌진 / 포위 / 연속 물기 / 울부짖기</div>
+<p>시나리오: 폭우로 냄새와 발자국을 잃고 좌절한다. 다리 아래에서 가족이 비를 피했던 흔적과 하수구로 향하는 희미한 발자국을 발견하고 다시 일어난다.</p>
+<h3>STAGE 9. 지하 하수도 — 「빛을 향해서」</h3>
+<p>일반 적/위협: 하수도 쥐, 거미, 바퀴벌레, 지네, 독거미, 변이 쥐, 환경 위험</p>
+<p>보스: 독두꺼비</p>
+<div class="flow">주요 패턴: 긴 혀 / 독액 / 점프 내려찍기 / 독안개</div>
+<p>시나리오: 독두꺼비는 패배 후 물속으로 도망간다. 빛이 들어오는 사다리와 맨홀을 통해 주택가로 나온다.</p>
+<h3>STAGE 10. 주택가 — 「집으로」</h3>
+<p>일반 적/위협: 경계냥, 골목냥, 지붕냥, 영역 고양이, 아기 길고양이, 마을 고양이 무리</p>
+<p>보스: 마을 길고양이 대장</p>
+<div class="flow">주요 패턴: 할퀴기 / 덮치기 / 하악질 / 연속 앞발</div>
+<p>시나리오: 대장이 냄새를 맡고 공격을 중단한다. 가족이 근처 집에서 구조되었다고 알려준다. 마지막 입력 &#x27;엄마&#x27; 후 키보드와 전투 HUD가 사라지고 주인공은 입력 없이 스스로 가족에게 달려간다.</p>
+</section>
+<section id="s4"><h2>4. 핵심 게임 루프와 2D 횡스크롤 액션</h2>
+<div class="flow">위험 발생 → 적 공격 예고(Telegraph) → 행동 단어 표시 → 한글 IME 입력 → 정답 판정 → 즉시 Player Animation → 적/환경 Reaction → Combo → 묵찌빠 충전 → 다음 상황</div>
+<div class="flow">대표 행동 단어: 공격 / 피해 / 점프 / 숙여 / 막아 / 달려 / 넘어. 정확한 단어가 완성되는 순간 행동하며, 가능하면 별도 Enter/입력 버튼을 요구하지 않는다.</div>
+<h3>플레이어 최소 애니메이션 상태</h3>
+<div class="flow">IDLE / WALK / RUN / ATTACK / JUMP / FALL / LAND / DUCK / DODGE / GUARD / HIT / KNOCKBACK / SPECIAL</div>
+<h3>공격</h3>
+<div class="flow">정답 → 몸 낮추기 → 짧은 돌진 → 앞발 공격 → Hit Flash + Hit Stop + Pixel Impact → 적 Knockback → 적 HP 감소 → 묵 게이지 충전</div>
+<h3>회피</h3>
+<ul><li>점프: 웅크림 → 도약 → 공격 통과 → 착지</li><li>숙이기: 몸 낮춤 → 공격 통과 → 복귀</li><li>피해: 빠른 백스텝 → 먼지 픽셀 → 착지</li><li>달려: Run 속도와 카메라 스크롤 증가 → 위험구역 탈출</li><li>회피 성공은 찌 게이지 충전 조건으로 사용</li></ul>
+<h3>방어</h3>
+<div class="flow">‘막아’ 성공 → GUARD → Impact → 약간 밀림 → 피해 감소 / Perfect Guard는 피해 0 / 실패는 정상 피해</div>
+</section>
+<section id="s5"><h2>5. 적 등장·공격·피격 애니메이션 기준</h2>
+<div class="flow">SPAWN → ENTER → APPROACH → NOTICE → WARNING → ATTACK_PREPARE → WORD DISPLAY → INPUT WINDOW → ATTACK → PLAYER RESPONSE → HIT/MISS → RECOVER → NEXT ATTACK/RETREAT</div>
+<ul><li>지상 동물: 화면 오른쪽 밖 → 일부 실루엣 → 자연스럽게 진입 → 주인공 발견 → 경계 자세.</li><li>비행 적: 배경의 작은 실루엣 → 접근/확대 → 공격 위치 이동 → 급강하.</li><li>인간: 일상 행동 → 고양이 발견 → 시선/몸 방향 전환 → 경고 → 추격/행동.</li><li>기계: 대기 → 센서 점등 → 플레이어 감지 → 작동 → 공격 준비.</li><li>강한 공격일수록 Telegraph를 길고 명확하게 제공한다. 피할 수 없는 갑작스러운 공격은 최소화한다.</li></ul>
+<h3>적 최소 Animation State</h3>
+<div class="flow">IDLE / MOVE / NOTICE / WARNING / ATTACK_PREPARE / ATTACK / HIT / KNOCKBACK / RECOVER / RETREAT</div>
+<h3>보스 추가 State</h3>
+<div class="flow">BOSS_INTRO / PHASE_CHANGE / ENRAGE / SPECIAL_ATTACK / DEFEAT / STORY_TRANSITION</div>
+</section>
+<section id="s6"><h2>6. 묵·찌·빠 지원 캐릭터 — 확정 애니메이션 사양</h2>
+<p>세 지원 캐릭터는 각각 3칸 게이지를 사용한다. MAX 상태에서 해당 캐릭터 버튼을 터치하면 전투 흐름 속에 자연스럽게 난입한다.</p>
+<h3>👊 묵 — 계란이 : 위→아래 앞발 할퀴기 공격</h3>
+<div class="flow">묵 MAX 터치 → 주인공 뒤(왼쪽 화면 밖)에서 계란이 달려옴 → 주인공을 추월 → 주인공 앞에서 짧게 정지 → ✨ 반짝!! 발동 → 적을 향해 재가속 → 적 앞에서 점프 → 공중에서 앞발을 들어 올림 → 위에서 아래로 강하게 할퀴기 → 💥 타격 → 적 HP 감소 + Knockback → 착지 → 오른쪽 화면 밖으로 퇴장</div>
+<ul><li>핵심 모션: RUN_IN → STOP → SPARK → RUN → JUMP → PAW_UP → DOWN_SLASH → IMPACT → LAND → RUN_OUT.</li><li>반짝 효과는 약 0.2~0.3초의 강한 단발성 픽셀 광원 효과.</li><li>옆으로 긁는 동작보다 위→아래로 내려찍듯 할퀴는 동작을 기준으로 한다.</li><li>역할: 직접 공격형. 단일 적/보스에게 명확한 타격감을 제공한다.</li></ul>
+<h3>✌ 찌 — 삼순이 : HP(에너지) 회복</h3>
+<div class="flow">찌 MAX 터치 → 왼쪽에서 삼순이 등장 → 주인공에게 접근 → 주인공 옆에서 정지/몸을 붙임 → ✨ 작은 빛이 반짝반짝 지속 → 회복 입자가 주인공 주변으로 이동/흡수 → HP(에너지) 게이지가 단계적으로 차오름 → 회복 완료 시 마지막 반짝임 → 삼순이 퇴장</div>
+<ul><li>핵심 모션: RUN_IN → APPROACH → RUB/CONTACT → HEAL_SPARKLE → ENERGY_TRANSFER → COMPLETE_SPARK → EXIT.</li><li>계란이의 단발성 &#x27;반짝!!&#x27;과 달리 여러 개의 작은 반짝임이 지속되는 부드러운 회복 효과.</li><li>현재 기획상 삼순이는 주인공 HP(에너지)를 채우는 회복 지원 역할로 취급한다. 실제 구현 전 HP와 별도 ENERGY를 분리할지 프로젝트 구조에 맞춰 최종 확정한다.</li></ul>
+<h3>🖐 빠 — 남순이 : 직선 고속 몸통박치기</h3>
+<div class="flow">빠 MAX 터치 → 주인공 뒤(왼쪽 화면 밖)에서 남순이 달려옴 → 주인공을 추월 → 주인공 앞에서 짧게 정지 → ✨ 반짝!! 발동 → 몸을 낮춰 돌진 자세 → 적을 향해 직선 고속 돌진 → 뒤쪽에 속도 잔상/먼지 → 적과 충돌 → 💥 강한 몸통박치기 Impact + 짧은 Hit Stop → 적 HP 감소 + 강한 Knockback → 남순이 짧은 충돌 반동 → 자세 회복 → 오른쪽으로 퇴장</div>
+<ul><li>핵심 모션: RUN_IN → STOP → SPARK → CHARGE_READY → BODY_CHARGE → IMPACT → REBOUND → RECOVER → RUN_OUT.</li><li>기존 구르기 공격은 사용하지 않는다. 정식 설정은 직선 몸통박치기다.</li><li>계란이는 수직적인 위→아래 타격, 남순이는 수평적인 고속 충돌로 실루엣과 타격감을 구분한다.</li></ul>
+<h3>묵찌빠 비교표</h3>
+<table>
+<tr>
+<th>구분</th>
+<th>등장/발동</th>
+<th>핵심 동작</th>
+<th>효과</th>
+<th>시각적 차별화</th>
+</tr>
+<tr>
+<td>계란이 / 묵</td>
+<td>왼쪽→주인공 앞 ✨반짝!!</td>
+<td>점프 후 위→아래 앞발 할퀴기</td>
+<td>직접 피해 + 넉백</td>
+<td>강한 단발 반짝 + 수직 Slash</td>
+</tr>
+<tr>
+<td>삼순이 / 찌</td>
+<td>왼쪽→주인공에게 접근</td>
+<td>몸 붙이기 + 회복 전달</td>
+<td>HP(에너지) 회복</td>
+<td>작은 반짝임 지속 + 회복 입자</td>
+</tr>
+<tr>
+<td>남순이 / 빠</td>
+<td>왼쪽→주인공 앞 ✨반짝!!</td>
+<td>직선 고속 몸통박치기</td>
+<td>피해 + 강한 넉백</td>
+<td>속도 잔상 + 큰 충돌 Impact</td>
+</tr>
+</table>
+</section>
+<section id="s7"><h2>7. 묵찌빠 게이지 충전 및 UI 애니메이션</h2>
+<ul><li>묵(계란이): 주인공의 공격 성공 시 +1칸.</li><li>찌(삼순이): 주인공의 성공적인 회피(점프/숙여/피해 등) 시 +1칸.</li><li>빠(남순이): 5 COMBO 마일스톤 달성 시 +1칸. 이미 충전한 게이지는 콤보가 끊겨도 유지.</li><li>각 게이지는 정확히 3칸. 3칸 충전 시 MAX.</li><li>충전 시 전투 위치에서 작은 에너지 픽셀이 해당 HUD 게이지로 날아가고, 도착한 칸이 100%→125%→100%로 Pulse.</li><li>MAX 시 얼굴 아이콘 Highlight/Bounce, Glow, 짧은 Sound와 약한 진동. 버튼 전체를 손가락으로 쉽게 누를 수 있는 터치 영역으로 구성.</li><li>소환 후 ■■■ → □□□로 초기화. 소환 애니메이션 중 부당한 피격을 막기 위해 짧은 무적 또는 적 공격 정지를 검토.</li></ul>
+</section>
+<section id="s8"><h2>8. Wave / 난이도 / HUD</h2>
+<div class="flow">STAGE INTRO → WAVE 1 → WAVE 2 → ENVIRONMENT EVENT → WAVE 3 → MID EVENT → WAVE 4 → CHECKPOINT → BOSS INTRO → BOSS → STORY EVENT → STAGE CLEAR</div>
+<ul><li>완전 랜덤 Spawn을 기본으로 하지 않고, 스테이지별 의도된 흐름 안에서 일부 적/순서만 랜덤화한다.</li><li>Stage 1~2: 짧은 단어, 단일 적, 긴 Telegraph. Stage 3~4: 공격+회피 혼합/환경. Stage 5~6: 복수 패턴/연속 입력. Stage 7~8: 추격/복합 위험. Stage 9: 독/상태이상. Stage 10: 최종전 후 전투 제거.</li><li>HUD: PLAYER HP, STAGE, BOSS HP, TARGET WORD, CURRENT INPUT, TIMER, COMBO, 묵/찌/빠 3칸 게이지.</li><li>시스템 키보드는 게임 HUD가 아니다. Android IME가 올라와도 플레이 영역과 HUD가 유지되어야 한다.</li></ul>
+</section>
+<section id="s9"><h2>9. Android 구현 구조 권장</h2>
+<ul><li>10개 스테이지를 개별 하드코딩하지 않고 StageData, WaveData, EnemyData, BossData, AttackPatternData, TypingWordData, DifficultyData, SupportData, StoryEventData로 분리한다.</li><li>기존 시스템과 신규 시스템이 중복되면 새 시스템을 하나 더 만드는 것보다 기존 구조 확장을 우선한다.</li><li>Enemy/Player/Boss 애니메이션은 상태 머신 기반으로 관리하여 중복 코드를 줄인다.</li><li>주요 수치(HP, Damage, MoveSpeed, WarningTime, InputTime, Cooldown 등)는 테스트용 값으로 시작하되 데이터화하여 쉽게 밸런싱 가능하게 한다.</li></ul>
+<h3>Stage 1 Vertical Slice 우선</h3>
+<div class="flow">횡스크롤 → Enemy Spawn → AI → Telegraph → 한글 타자 → Player Attack/Guard/Dodge → Enemy Attack/Hit → Combo → 묵찌빠 충전/소환 → 작업반장 Boss 3패턴 → 가족 발자국 → Stage Clear</div>
+<p>Stage 1에서 전체 공통 시스템이 안정화된 뒤 Stage 2~10으로 확장한다.</p>
+</section>
+<section id="s10"><h2>10. 향후 제작할 픽셀 애니메이션 레퍼런스 시트</h2>
+<ul><li>주인공: IDLE/WALK/RUN/ATTACK/JUMP/FALL/LAND/DUCK/DODGE/GUARD/HIT/KNOCKBACK.</li><li>계란이: RUN_IN/STOP/SPARK/JUMP/PAW_UP/DOWN_SLASH/IMPACT/LAND/RUN_OUT.</li><li>삼순이: RUN_IN/APPROACH/RUB/HEAL_SPARKLE/ENERGY_TRANSFER/COMPLETE/EXIT.</li><li>남순이: RUN_IN/STOP/SPARK/CHARGE_READY/BODY_CHARGE/IMPACT/REBOUND/RECOVER/RUN_OUT.</li><li>Stage별 일반 적: ENTER/NOTICE/WARNING/ATTACK_PREPARE/ATTACK/HIT/RETREAT.</li><li>보스: INTRO/각 공격 Telegraph/공격/Phase Change/Hit/Defeat/Story Transition.</li><li>공통 이펙트: 반짝!!, 회복 반짝임, Slash, Impact, Hit Flash, Hit Stop용 프레임, 먼지, 속도 잔상, Knockback.</li></ul>
+</section>
+<section id="s11"><h2>11. Astra/Codex용 마스터 개발 프롬프트</h2>
+<p>[최우선 지시] 현재 제공된 《낭만고양이》 Android Studio 프로젝트가 유일한 기준 프로젝트입니다. 새 Android 프로젝트를 생성하거나 기존 프로젝트를 대체하지 마세요. 먼저 제공된 기획서, 스토리, 스테이지별 배경/적/보스/애니메이션 레퍼런스와 현재 프로젝트의 코드·Gradle·리소스·구현 기능을 분석한 후, 정상 작동 기능을 최대한 보존하면서 동일 프로젝트 내부에서 수정·확장하세요.</p>
+<div class="flow">작업 순서는 반드시 &#x27;자료 학습 → 레퍼런스 분석 → 현재 프로젝트 Build 및 구조 분석 → 현재 구현 목록 → 기획 대비 Gap Analysis → 추가 수정안 제안 → 사용자 승인 → 기존 프로젝트 내부 수정 → Build/Emulator Test → 문제 수정 → Debug APK&#x27; 순서로 진행하세요. 수정안 승인 전에는 대규모 코드 변경을 시작하지 마세요.</div>
+<div class="flow">게임은 Android 세로형 레트로 픽셀아트 2D 횡스크롤 액션 어드벤처입니다. 타자는 단순 UI가 아니라 캐릭터 컨트롤러입니다. 위험 발생 → 적 Telegraph → 행동 단어 → 한글 IME 입력 → 정답 완성 즉시 캐릭터 행동 → 적 반응 → Combo → 묵찌빠 충전이 끊김 없이 이어져야 합니다.</div>
+<p>Android 시스템 한글 IME(삼성 키보드/Gboard 포함)의 composing text를 올바르게 처리하고, 시스템 키보드가 올라와도 PLAYER HP, STAGE, BOSS HP, TARGET WORD, CURRENT INPUT, TIMER, COMBO, 묵찌빠 게이지와 충분한 게임플레이 영역이 유지되도록 하세요.</p>
+<div class="flow">일반 적은 SPAWN → ENTER → APPROACH → NOTICE → WARNING → ATTACK_PREPARE → WORD DISPLAY → INPUT WINDOW → ATTACK → PLAYER RESPONSE → HIT/MISS → RECOVER → NEXT ATTACK/RETREAT 상태 흐름을 기본으로 합니다. 적이 화면에 갑자기 생성되거나 Telegraph 없이 강공격하지 않도록 하세요.</div>
+<p>플레이어 공격 성공은 실제 앞발 공격, Hit Flash, 짧은 Hit Stop, Pixel Impact, Knockback과 묵 게이지 충전으로 연결합니다. 회피(점프/숙여/피해/달려) 성공은 실제 회피 모션과 찌 게이지 충전으로 연결합니다. &#x27;막아&#x27;는 Guard/Perfect Guard로 구분합니다.</p>
+<p>묵·찌·빠는 각각 3칸 게이지입니다. 묵은 공격 성공, 찌는 회피 성공, 빠는 5 COMBO 마일스톤으로 충전합니다. 충전 시 에너지 픽셀이 전투 위치에서 HUD로 이동하고 칸이 Pulse되며, MAX 시 명확한 Highlight/Bounce/Glow를 제공합니다.</p>
+<p>계란이(묵): MAX 터치 시 주인공 뒤 왼쪽에서 달려와 주인공을 추월하고, 주인공 앞에서 짧게 멈춰 &#x27;반짝!!&#x27; 발동 효과를 낸 뒤 적에게 달려가 점프합니다. 공중에서 앞발을 들어 위에서 아래로 강하게 할퀴어 적에게 피해와 Knockback을 주고 착지 후 오른쪽으로 퇴장합니다.</p>
+<p>삼순이(찌): MAX 터치 시 왼쪽에서 주인공에게 접근하여 몸을 붙이거나 비비고, 여러 개의 작은 반짝반짝 픽셀과 회복 입자를 발생시켜 주인공의 HP(에너지)를 단계적으로 회복시킵니다. 계란이/남순이의 단발 반짝과 달리 부드럽고 지속적인 회복 효과로 표현합니다. 실제 프로젝트 분석 후 HP와 별도 ENERGY를 분리할 필요가 있는지 수정안에서 제안하세요.</p>
+<p>남순이(빠): MAX 터치 시 주인공 뒤 왼쪽에서 달려와 주인공을 추월하고 앞에서 짧게 멈춰 &#x27;반짝!!&#x27; 발동 효과를 낸 뒤 몸을 낮추고 적에게 직선 고속 돌진합니다. 속도 잔상과 먼지 효과를 주고 적과 충돌할 때 강한 Impact와 짧은 Hit Stop, 피해 및 강한 Knockback을 적용합니다. 기존 구르기 공격은 사용하지 않습니다.</p>
+<p>10개 스테이지의 스토리와 보스는 본 문서의 확정안을 기준으로 합니다. 텍스트 기획과 AI 생성 이미지가 충돌하면 텍스트 기획을 우선하세요. AI 이미지의 잘못된 글자, 임시 이름, 임의 캐릭터는 사양으로 채택하지 마세요.</p>
+<p>전체 10개 스테이지를 한꺼번에 구현하지 말고 Stage 1을 Vertical Slice로 먼저 완성하세요. Stage 1에서 Enemy Spawn/AI/Telegraph/Typing/Attack/Guard/Dodge/Hit/Combo/묵찌빠/소환/Boss/Story/Stage Clear를 안정화한 뒤 공통 시스템을 Stage 2~10에 확장하세요.</p>
+<p>첫 번째 응답에서는 코드를 대규모로 수정하지 말고 다음을 보고하세요: A 게임 전체 이해 요약, B 10개 스테이지 연결 구조, C 현재 Android 프로젝트 구조/구현 상태, D Gap Analysis, E 유지할 기능, F 수정 필요 항목, G Enemy/Wave/Animation 설계안, H 공격·방어·회피 개선안, I 묵찌빠 충전/소환 애니메이션 개선안, J Stage 1 Vertical Slice 상세 수정안, K Stage 2~10 확장 계획, L 우선순위, M 수정 예상 파일, N 신규 파일/클래스, O Build/Test 계획.</p>
+<p>제안은 [현재 확정 설정] [현재 프로젝트 구현] [구현상 필요한 수정] [게임성을 위한 추천] [선택 사항] [추후 확장]으로 구분하고, 확정 설정과 AI의 제안을 섞어 확정된 것처럼 처리하지 마세요.</p>
+<div class="flow">최종적으로 Gradle Sync → Build → Emulator 설치/실행 → 플레이 테스트가 가능해야 하며, Debug APK는 app/build/outputs/apk/debug/app-debug.apk에 정상 생성되어야 합니다. APK가 생성되지 않았다면 완료로 처리하지 마세요.</div>
+</section>
+<section id="s12"><h2>12. AI가 첫 분석 응답에서 제출해야 할 체크리스트</h2>
+<ul><li>게임 전체 이해 요약</li><li>10개 Stage 스토리 연결 구조</li><li>현재 프로젝트 디렉터리/언어/UI/렌더링/Gradle/minSdk/targetSdk</li><li>Game Loop / Player / Typing / 한글 IME / Enemy / Animation / Stage / HUD / 묵찌빠 / Sound 구조</li><li>현재 구현 완료 기능과 미구현 기능</li><li>기획 대비 Gap Analysis 표</li><li>재사용 가능한 코드와 확장해야 할 코드</li><li>Stage 1 적 등장 순서 및 Wave 1~4</li><li>각 적 HP/Damage/MoveSpeed/AttackRange/WarningTime/InputTime 제안</li><li>적별 Spawn/Notice/Warning/Attack/Hit/Retreat 애니메이션</li><li>보스 Phase 1~3와 Telegraph/Animation</li><li>계란이·삼순이·남순이 확정 소환 애니메이션 구현안</li><li>수정 예상 파일 목록 / 신규 파일·클래스 목록</li><li>Build/Emulator/APK 테스트 계획</li></ul>
+</section>
+
+
+<section id="s13">
+<h2>13. Alpha 0.1.2 플레이테스트 반영 — 필수 개선 요구사항</h2>
+
+<p><strong>현재 테스트 기준 버전:</strong> Alpha 0.1.2</p>
+<p>현재 버전은 기본적인 Stage 1 진행, 한글 타자 입력, Combo, Player HP, 묵찌빠 게이지, 일시정지, 일반 적과 보스 전투의 골격이 확인되는 상태다. 다음 버전에서는 아래 항목을 우선 개선한다.</p>
+
+<h3>13-1. 일시정지 메뉴에 ‘타이틀로 돌아가기’ 기능 추가</h3>
+<p>현재는 게임 도중 일시정지는 가능하지만 현재 플레이를 종료하고 타이틀 화면으로 돌아가는 기능이 없다. Pause Menu를 단순 Resume 기능만 가진 화면이 아니라 플레이 세션을 관리하는 메뉴로 확장한다.</p>
+
+<div class="flow">게임 중 PAUSE 버튼
+→ 게임 로직/타이머/적 AI/입력 판정 일시정지
+→ PAUSE MENU 표시
+
+[계속하기]
+[처음부터 다시하기]
+[타이틀로 돌아가기]
+
+타이틀로 돌아가기 선택
+→ 확인 팝업
+“현재 진행 상황을 종료하고 타이틀 화면으로 돌아갈까요?”
+[취소] [타이틀로]
+
+확정
+→ 현재 Stage/Wave/Boss/Enemy/Combo/입력 상태 정리
+→ 게임 세션 종료
+→ IME/키보드 정리
+→ 타이틀 화면으로 전환</div>
+
+<ul>
+<li>‘계속하기’는 현재 상태를 그대로 복원한다.</li>
+<li>‘처음부터 다시하기’는 현재 스테이지를 초기 상태로 재시작한다.</li>
+<li>‘타이틀로 돌아가기’는 실수 방지를 위해 확인 절차를 둔다.</li>
+<li>타이틀 복귀 시 Enemy coroutine/timer/animation/game loop가 뒤에서 계속 실행되지 않도록 정리한다.</li>
+<li>Android Back 동작도 게임 중에는 곧바로 Activity 종료보다 Pause Menu를 먼저 여는 방향을 우선 검토한다.</li>
+</ul>
+
+<h3>13-2. 적 캐릭터 움직임을 ‘루즈한 이동’에서 ‘행동이 읽히는 액션’으로 개선</h3>
+<p>Alpha 0.1.2에서는 적 캐릭터가 화면 안에서 이동하거나 대기하는 구간이 길고, 접근·경계·공격 준비 사이의 시각적 변화가 약해 전투가 느슨하게 느껴진다. 단순히 이동 속도만 올리지 말고 <strong>속도 변화 + 행동 상태 + 애니메이션 + Telegraph</strong>를 함께 개선한다.</p>
+
+<div class="flow">ENTER
+→ APPROACH
+→ NOTICE
+→ WARNING
+→ ATTACK_PREPARE
+→ ATTACK
+→ RECOVER
+→ REPOSITION / NEXT ATTACK</div>
+
+<ul>
+<li><strong>ENTER:</strong> 화면 밖에서 자연스럽게 진입. 일정한 미끄러짐 이동 금지.</li>
+<li><strong>APPROACH:</strong> 짧은 가속과 감속을 사용하여 살아 있는 생물처럼 접근.</li>
+<li><strong>NOTICE:</strong> 주인공을 발견하면 머리/몸 방향 전환, 1회 움찔, 경계 포즈 등 명확한 반응.</li>
+<li><strong>WARNING:</strong> 공격 직전 색상/눈/몸 자세/작은 경고 이펙트로 플레이어가 다음 공격을 읽을 수 있게 한다.</li>
+<li><strong>ATTACK_PREPARE:</strong> 공격 종류마다 고유한 예비 동작을 둔다.</li>
+<li><strong>ATTACK:</strong> 짧고 빠른 가속 구간을 사용하여 공격 순간의 속도감을 만든다.</li>
+<li><strong>RECOVER:</strong> 공격 후 바로 Idle로 돌아가지 말고 착지/헛발질/몸 추스르기 등의 후속 동작을 둔다.</li>
+<li><strong>REPOSITION:</strong> 같은 자리에서 공격만 반복하지 말고 짧게 물러나거나 위치를 바꾼 후 다음 공격을 준비한다.</li>
+</ul>
+
+<h3>13-3. 일반 적 애니메이션 최소 사양</h3>
+<div class="flow">IDLE_LOOP
+MOVE_LOOP
+NOTICE
+WARNING
+ATTACK_PREPARE
+ATTACK
+HIT
+KNOCKBACK
+RECOVER
+RETREAT</div>
+
+<p>각 상태가 단순 좌표 이동만으로 표현되지 않도록 픽셀 애니메이션 또는 최소한 Scale/Offset/Flash/Dust 등의 보조 효과를 사용한다.</p>
+
+<ul>
+<li><strong>IDLE:</strong> 호흡, 꼬리, 귀, 몸의 미세 움직임.</li>
+<li><strong>MOVE:</strong> 실제 발걸음과 속도가 맞는 Walk/Run cycle.</li>
+<li><strong>NOTICE:</strong> 짧은 정지 + 시선/몸 방향 변화.</li>
+<li><strong>WARNING:</strong> 0.2~0.6초 정도의 공격 예고 동작.</li>
+<li><strong>ATTACK:</strong> 시작→가속→충돌/공격→후속 동작이 보이게 한다.</li>
+<li><strong>HIT:</strong> Hit Flash + 1~2px 반동 + 짧은 Hit Stop.</li>
+<li><strong>KNOCKBACK:</strong> 공격 방향과 반대로 밀리며 발/몸 자세 변화.</li>
+<li><strong>RETREAT:</strong> HP 0 또는 전투 종료 시 즉시 삭제하지 않고 화면 밖으로 도망/후퇴.</li>
+</ul>
+
+<h3>13-4. 적 종류별 ‘움직임 성격’을 다르게 한다</h3>
+
+<table>
+<tr><th>적 유형</th><th>움직임 방향</th><th>필요한 느낌</th><th>대표 연출</th></tr>
+<tr><td>까마귀</td><td>상하 + 사선</td><td>빠르고 불규칙</td><td>날갯짓, 상승, 잠깐 정지, 급강하</td></tr>
+<tr><td>들개/경비견</td><td>수평 중심</td><td>무게감 + 순간 가속</td><td>걷기→경계→웅크림→돌진→미끄러짐</td></tr>
+<tr><td>쥐</td><td>짧은 수평 이동</td><td>빠르고 경쾌</td><td>정지→짧은 질주→방향 전환</td></tr>
+<tr><td>고양이</td><td>수평 + 도약</td><td>민첩하고 경계심</td><td>하악질→몸 낮춤→덮치기→착지</td></tr>
+<tr><td>인간</td><td>느린 접근 + 큰 공격</td><td>고양이 시점의 위압감</td><td>시선 전환, 팔/다리 크게 준비, 추격</td></tr>
+<tr><td>기계/로봇</td><td>기계적 패턴</td><td>규칙성과 작동감</td><td>센서 점등, 진동, 기동, 공격 모듈 전개</td></tr>
+</table>
+
+<h3>13-5. 전투 타격 애니메이션과 화면 효과 보강</h3>
+<p>현재 전투는 입력 성공 여부가 UI와 수치에 집중되어 보일 수 있으므로, 모든 성공 입력을 반드시 화면의 물리적 액션으로 연결한다.</p>
+
+<div class="flow">정답 입력
+→ Player / Support Attack Animation
+→ Enemy HIT Animation
+→ Hit Flash
+→ 40~80ms 수준의 짧은 Hit Stop
+→ Pixel Impact
+→ Knockback
+→ 아주 약한 Camera Shake
+→ HP 감소 표시
+→ Combo / Gauge 반응</div>
+
+<ul>
+<li>타격 순간만 아주 짧게 화면을 멈춰 충돌감을 만든다.</li>
+<li>피격 캐릭터를 1~2프레임 밝게 Flash 처리한다.</li>
+<li>공격 위치에 Slash/Impact/Dust 픽셀 효과를 추가한다.</li>
+<li>강공격이나 묵찌빠는 일반 공격보다 큰 Impact를 사용하되 화면 흔들림은 과하지 않게 한다.</li>
+<li>실패/MISS에도 별도의 시각 반응을 두어 입력 결과가 즉시 보이게 한다.</li>
+</ul>
+
+<h3>13-6. 적 이동 템포 및 전투 리듬 개선</h3>
+<p>루즈함을 해결하기 위해 모든 캐릭터의 MoveSpeed만 일괄 증가시키지 않는다. 구간별 속도와 대기시간을 조정한다.</p>
+
+<ul>
+<li>일반 접근 시간은 짧게.</li>
+<li>공격 전 Telegraph는 읽을 수 있을 만큼 명확하게.</li>
+<li>입력 성공 후 다음 상황까지 불필요한 공백을 줄인다.</li>
+<li>연속 전투에서도 입력 단어를 읽을 최소 시간은 보장한다.</li>
+<li>Boss는 이동 속도보다 패턴 전환과 공격 리듬으로 압박감을 만든다.</li>
+<li>Enemy Animation 속도와 실제 이동 속도가 어긋나 미끄러져 보이지 않게 한다.</li>
+</ul>
+
+<h3>13-7. Stage 1 작업반장 보스 애니메이션 보강</h3>
+<p>Alpha 0.1.2에서 보스는 크기와 존재감은 충분하므로, 다음 단계에서는 공격 전후의 애니메이션과 이동 리듬을 강화한다.</p>
+
+<ul>
+<li><strong>망치 던지기:</strong> 망치 들어올림 → 뒤로 젖힘 → 궤적 예고 → 빠른 던지기 → 망치 이동/충돌 → 보스 Recover.</li>
+<li><strong>뛰어서 추격:</strong> 상체 숙임 → 첫 발 강하게 내딛기 → 가속 Run → 화면 스크롤 압박 → 추격 종료 후 숨 고르기.</li>
+<li><strong>소리 지르기:</strong> 몸을 크게 세움 → 입/얼굴 변화 → 충격파/화면 왜곡 또는 미세 Shake. Android IME 자체는 흔들거나 방해하지 않는다.</li>
+<li>HP가 낮아지면 단순 속도 증가보다 ‘소리 지르기→추격→망치’ 같은 연결 패턴으로 긴장감을 높인다.</li>
+</ul>
+
+<h3>13-8. 묵·찌·빠 확정 애니메이션과 Alpha 0.1.2 연동</h3>
+
+<p><strong>계란이 / 묵:</strong> 주인공 뒤 왼쪽에서 달려옴 → 주인공 앞에서 짧게 정지 → ✨반짝!! → 적에게 재가속 → 점프 → 위에서 아래로 앞발 할퀴기 → Impact/Knockback → 착지 → 퇴장.</p>
+
+<p><strong>삼순이 / 찌:</strong> 왼쪽에서 주인공에게 접근 → 몸을 붙이거나 비빔 → ✨반짝반짝 지속 → 회복 입자가 주인공에게 흡수 → HP(에너지)가 눈에 보이게 차오름 → 완료 반짝임 → 퇴장.</p>
+
+<p><strong>남순이 / 빠:</strong> 주인공 뒤 왼쪽에서 달려옴 → 주인공 앞에서 짧게 정지 → ✨반짝!! → 몸 낮춤 → 직선 고속 몸통박치기 → 속도 잔상 → 💥Impact + Hit Stop → 적 피해 + 강한 Knockback → 반동/회복 → 퇴장.</p>
+
+<h3>13-9. Astra/Codex에 추가할 Alpha 0.1.2 전용 프롬프트</h3>
+
+<pre>
+[Alpha 0.1.2 플레이테스트 추가 지시]
+
+현재 기준 빌드는 《낭만고양이》 Alpha 0.1.2이다.
+새 프로젝트를 만들지 말고 현재 Alpha 0.1.2 Android Studio 프로젝트를 그대로 기준으로 분석하고 개선한다.
+
+1. 현재 Alpha 0.1.2에는 게임 중 Pause 기능은 있지만 현재 플레이를 종료하고 타이틀 화면으로 돌아가는 기능이 없다.
+Pause Menu를 확장해 [계속하기] [처음부터 다시하기] [타이틀로 돌아가기]를 제공하라.
+타이틀로 돌아가기에는 확인 팝업을 두고, 확정 시 현재 Enemy/Wave/Boss/Combo/Input/Timer/Game Loop/Coroutine 상태를 안전하게 정리한 뒤 Title Screen으로 복귀시켜라.
+키보드/IME도 정상적으로 정리되어야 하며 백그라운드에서 전투 로직이 계속 실행되어서는 안 된다.
+
+2. Alpha 0.1.2의 적 캐릭터 움직임은 현재 다소 루즈하게 느껴진다.
+단순히 MoveSpeed만 올리는 방식으로 해결하지 말고 ENTER→APPROACH→NOTICE→WARNING→ATTACK_PREPARE→ATTACK→RECOVER→REPOSITION의 상태 차이를 명확히 구현하라.
+접근 중 가속/감속, 발견 시 반응, 공격 전 Telegraph, 공격 순간의 순간 가속, 공격 후 Recover, 위치 재조정을 추가해 전투 리듬을 개선하라.
+
+3. 일반 적은 최소 IDLE_LOOP/MOVE_LOOP/NOTICE/WARNING/ATTACK_PREPARE/ATTACK/HIT/KNOCKBACK/RECOVER/RETREAT 애니메이션 상태를 가져야 한다.
+좌표 이동만으로 캐릭터가 미끄러져 보이지 않도록 실제 Move Animation과 이동 속도를 동기화하라.
+
+4. 적 종류별 움직임 성격을 다르게 하라.
+까마귀는 상승/정지/급강하, 개는 경계→웅크림→순간 돌진, 쥐는 짧고 빠른 질주, 고양이는 몸 낮춤→덮치기, 인간은 큰 예비 동작과 추격, 기계는 센서 점등→기동→공격 전개 방식으로 차별화한다.
+
+5. 모든 성공 입력은 반드시 실제 액션 애니메이션으로 연결한다.
+정답→Player/Support Attack→Enemy HIT→Hit Flash→짧은 Hit Stop→Pixel Impact→Knockback→약한 Camera Shake→HP 감소→Combo/Gauge 반응 순서가 화면에서 읽혀야 한다.
+숫자나 텍스트만 변하는 결과는 허용하지 않는다.
+
+6. Stage 1 작업반장 보스의 3개 핵심 패턴을 애니메이션으로 강화한다.
+망치 던지기: 망치 들기→뒤로 젖힘→궤적 Telegraph→던지기→Recover.
+추격: 몸 숙임→가속 Run→화면 스크롤 압박→종료 후 숨 고르기.
+소리 지르기: 몸 크게 세움→외침→충격파/약한 화면 Shake. 단, Android IME는 흔들거나 입력을 방해하지 않는다.
+보스 저체력 상태에서는 단순 속도 증가보다 패턴 연계를 우선한다.
+
+7. 묵찌빠의 확정 애니메이션을 구현한다.
+계란이(묵): 왼쪽에서 달려와 주인공 앞에서 ✨반짝!! → 적에게 달림 → 점프 → 위→아래 앞발 할퀴기 → Impact/Knockback → 퇴장.
+삼순이(찌): 주인공에게 접근 → 몸을 붙임 → ✨반짝반짝 회복 이펙트 → HP(에너지)가 단계적으로 차오름 → 퇴장.
+남순이(빠): 왼쪽에서 달려와 주인공 앞에서 ✨반짝!! → 몸 낮춤 → 직선 고속 몸통박치기 → 속도 잔상 → Impact/Hit Stop → 강한 Knockback → 퇴장.
+남순이의 기존 구르기 공격은 사용하지 않는다.
+
+8. 위 변경사항은 먼저 현재 프로젝트 구조와 충돌 여부를 분석하고,
+[현재 Alpha 0.1.2 구현 상태]
+[문제 원인]
+[유지할 코드]
+[수정할 코드]
+[신규 Animation/State]
+[Pause/Title 복귀 설계]
+[Enemy AI/Animation 개선]
+[Stage 1 적용 결과 예상]
+[Build/Test 계획]
+순서로 보고하라.
+
+9. 분석 보고 후 사용자 승인 전에는 대규모 리팩터링을 시작하지 마라.
+기존 한글 IME, 타자 판정, HUD, Combo, 묵찌빠 게이지, Pause, Stage/Boss 진행 등 정상 작동 기능을 보존하면서 최소 변경으로 개선하라.
+
+10. 수정 후 반드시 Gradle Sync→Build→Emulator Run→Stage 1 실제 플레이 테스트→Pause→Title 복귀 테스트→적 이동/공격/피격 애니메이션 테스트→묵찌빠 테스트를 수행하고 debug APK 생성을 확인하라.
+</pre>
+</section>
+
+
+<section id="s14">
+<h2>14. Alpha 0.2.0 최신 확정 변경사항</h2>
+<div class="flow"><strong>현재 공식 장르:</strong> 2D 횡스크롤 액션 어드벤처
+
+<strong>현재 공식 조작:</strong> 가상 조이스틱 + 공격 / 회피 / 방어
+<strong>점프:</strong> 조이스틱 위 방향
+<strong>핵심 특수 시스템:</strong> 계란이(묵) / 삼순이(찌) / 남순이(빠)
+
+※ 한글 타자 게임은 Alpha 0.1.2의 구형 설계다.
+※ Alpha 0.2.0의 게임 플레이에는 타자 입력과 Android IME를 사용하지 않는다.
+※ 문서의 과거 Alpha 0.1.2 기록과 현재 설정이 충돌할 경우 Alpha 0.2.0 최신 확정사항을 우선한다.</div>
+
+<h3>14-1. 게임 장르 및 조작 체계 변경</h3>
+<p>Alpha 0.1.2의 한글 타자 조작은 스마트폰 세로 화면에서 Android 키보드가 화면의 절반가량을 가려 게임 몰입도를 크게 떨어뜨렸다. Alpha 0.2.0부터는 <strong>가상 조이스틱 + 액션 버튼</strong>을 공식 조작 방식으로 사용한다.</p>
+
+<div class="flow">왼쪽 하단: 가상 조이스틱
+→ 좌/우 이동
+→ 위 방향 입력으로 점프
+→ 별도 점프 버튼 없음
+
+오른쪽 하단:
+[공격]
+[회피]
+[방어]</div>
+
+<ul>
+<li>Android 키보드와 타자 입력 UI는 실제 게임 플레이에서 제거한다.</li>
+<li>별도 점프 버튼을 만들지 않는다. 점프는 조이스틱 위 방향으로 수행한다.</li>
+<li>SP 게이지는 사용하지 않는다.</li>
+<li>물약/회복 아이템 버튼은 사용하지 않는다.</li>
+<li>주인공의 기본 상태 자원은 HP만 사용한다.</li>
+<li>기존 타자/IME 코드는 즉시 삭제하지 않고 우선 비활성화 또는 분리한 뒤 새 조작이 안정화되면 정리한다.</li>
+</ul>
+
+<h3>14-2. Portrait 세로형 전투 UI</h3>
+<p>게임 화면은 Portrait 세로형을 유지한다. 화면의 핵심은 최대한 넓은 전투 영역과 손가락이 자연스럽게 닿는 조작 영역이다.</p>
+<ul>
+<li>상단: Player HP / Stage / Boss HP(보스전) / 진행 정보 / 메뉴 버튼.</li>
+<li>중앙: 실제 횡스크롤 게임 플레이 영역.</li>
+<li>왼쪽 하단: 가상 아날로그 조이스틱.</li>
+<li>오른쪽 하단: 공격 / 회피 / 방어.</li>
+<li>하단 또는 조작부 위: 계란이(묵) / 삼순이(찌) / 남순이(빠) 3칸 특수 게이지.</li>
+<li>SP, 물약, 점프 버튼, 타자창, TARGET WORD, CURRENT INPUT은 표시하지 않는다.</li>
+</ul>
+
+<h3>14-3. 게임 중 메뉴 통합</h3>
+<p>게임 화면에서 옵션/설정 성격의 버튼을 여러 개 두지 않는다. 우측 상단에 <strong>메뉴 버튼 하나</strong>만 둔다.</p>
+<div class="flow">[계속하기]
+[스토리]
+[설정]
+[스테이지 다시 시작]
+[타이틀로 돌아가기]</div>
+<p>‘스토리’는 별도 인게임 버튼이 아니라 메뉴 안에 넣는다. ‘타이틀로 돌아가기’는 확인 팝업 후 현재 전투 세션, 적 AI, Wave, Boss, Combo, Timer, Animation, Coroutine/Game Loop를 안전하게 종료하고 타이틀 화면으로 전환한다.</p>
+
+<h3>14-4. 묵찌빠 특수 캐릭터 역할 — 최신 확정</h3>
+<table>
+<tr><th>캐릭터</th><th>역할</th><th>충전</th><th>발동</th></tr>
+<tr><td>계란이 (묵)</td><td>공격</td><td>일반 공격 적중</td><td>왼쪽에서 달려와 주인공 앞에서 ✨반짝!! → 적에게 달려감 → 점프 → 위→아래 앞발 할퀴기 → Impact/Knockback</td></tr>
+<tr><td>삼순이 (찌)</td><td>HP 회복</td><td>성공적인 회피</td><td>주인공에게 접근 → 몸을 붙이거나 비빔 → ✨반짝반짝 → 회복 입자 → HP 단계적 회복</td></tr>
+<tr><td>남순이 (빠)</td><td>몸통박치기</td><td>콤보 마일스톤</td><td>왼쪽에서 달려와 주인공 앞에서 ✨반짝!! → 몸 낮춤 → 직선 고속 돌진 → 몸통박치기 → 강한 Knockback</td></tr>
+</table>
+<p>남순이는 <strong>수컷 어린 고양이</strong>다. 기존 구르기 공격은 폐기하며 직선 몸통박치기가 공식 기술이다.</p>
+
+<h3>14-5. 특수 캐릭터 외형 레퍼런스</h3>
+<ul>
+<li><strong>계란이:</strong> 주황+흰색 바이컬러 치즈태비. 얼굴 중앙·입 주변·가슴·배·다리는 흰색, 머리와 등·꼬리는 주황 태비 무늬.</li>
+<li><strong>삼순이:</strong> 검정·주황·갈색이 섞인 카오스/토터셸 계열, 흰 가슴·배·발, 얼굴 좌우의 비대칭 무늬가 특징.</li>
+<li><strong>남순이:</strong> 흰색 바탕에 회색/검정 고등어 계열 무늬가 머리와 등 쪽에 있고, 체형은 다른 둘보다 작고 어린 수컷 고양이 느낌을 유지.</li>
+<li>AI 생성 레퍼런스에서 세 마리의 실제 외형과 다르게 생성된 임시 디자인은 공식 기준으로 사용하지 않는다.</li>
+<li>특수기 발동 스프라이트는 실제 사진 특징을 살린 최신 픽셀아트 레퍼런스 디자인으로 교체한다.</li>
+</ul>
+
+<h3>14-6. Stage 1 첫 스토리 — 세 마리와의 만남</h3>
+<p>재개발 철거가 한창인 오래된 동네. 굴착기와 철거 소리, 먼지와 무너진 집 사이에서 주인공 턱시도 고양이는 엄마와 형제들을 잃고 혼자 남는다. 아무리 울어도 가족의 대답은 들리지 않고, 주인공은 무너진 담벼락 옆에 웅크려 외롭고 무서워한다.</p>
+
+<p>그 모습을 철거 현장 근처를 지나가던 <strong>계란이, 삼순이, 남순이</strong>가 발견한다. 남순이가 먼저 주인공에게 가려 하고 계란이는 위험한 철거 현장을 살핀다. 삼순이는 겁에 질린 주인공에게 천천히 다가가 경계를 풀게 한다.</p>
+
+<div class="flow">남순이: “형… 저기 고양이 혼자 있어.”
+삼순이: “많이 무서운가 봐.”
+계란이: “여긴 위험해. 우선 저 녀석부터 데리고 나가자.”
+
+삼순이: “괜찮아. 우린 널 해치지 않아.”
+
+주인공: “엄마랑… 형제들이 없어졌어.”
+
+계란이: “그럼 찾아야지.”
+주인공: “……찾을 수 있을까?”
+계란이: “찾아보지도 않고 포기할 순 없잖아.”
+
+삼순이: “혼자 찾을 필요 없어.”
+남순이: “같이 가자! 우리가 도와줄게!”</div>
+
+<p>이 장면을 통해 묵찌빠 시스템이 단순한 스킬 UI가 아니라 <strong>여행을 함께하는 세 친구의 도움</strong>이라는 의미를 갖게 한다. 세 마리는 항상 주인공 옆을 따라다니며 화면을 복잡하게 하지 않고, 스토리 장면과 특수기 발동 순간을 중심으로 등장한다.</p>
+
+<h3>14-7. Stage 10 엔딩 — 가족 재회와 세 친구의 작별</h3>
+<p>Stage 10에서 마을 길고양이 대장의 도움으로 가족이 구조된 집을 찾아낸다. 창가에 엄마와 형제들이 나타나고, 주인공은 마침내 가족과 재회한다.</p>
+
+<p>조금 떨어진 곳에서 계란이·삼순이·남순이가 그 모습을 바라본다. 남순이가 주인공에게 다가가려 하지만 계란이가 멈추고, 삼순이는 가족을 찾은 주인공을 보며 미소 짓는다.</p>
+
+<div class="flow">남순이: “우리도 가자!”
+계란이: “아니. 이제 됐어.”
+삼순이: “찾았잖아. 자기 가족.”
+
+주인공: “고마워.”
+계란이: “가족 잘 지켜.”
+삼순이: “이제 혼자 있지 마.”
+남순이: “형! 다음에 또 만나!”</div>
+
+<p>세 마리는 골목길을 따라 떠난다. 남순이는 몇 번 뒤돌아보고, 삼순이가 그 뒤를 따른다. 마지막으로 계란이가 멈춰 주인공을 한 번 바라본 뒤 돌아선다. 주인공은 친구들이 사라질 때까지 바라보다 다시 엄마와 형제들이 기다리는 집으로 돌아간다.</p>
+
+<blockquote>“집은 장소가 아니었다. 함께 있는 곳이, 집이었다.”</blockquote>
+<blockquote>“그리고 어떤 길은, 함께 걸어준 친구 덕분에 끝까지 갈 수 있었다.”</blockquote>
+
+<h3>14-8. 적 움직임 및 전투 애니메이션 개선</h3>
+<p>Alpha 0.1.2에서 적의 움직임이 루즈하고 상태 변화가 약하게 느껴졌다. Alpha 0.2.0에서는 단순 속도 증가가 아니라 상태 기반 움직임과 애니메이션을 적용한다.</p>
+<div class="flow">SPAWN → ENTER → APPROACH → NOTICE → WARNING → ATTACK_PREPARE → ATTACK → HIT/PLAYER RESPONSE → RECOVER → REPOSITION → NEXT ATTACK / RETREAT</div>
+<ul>
+<li>ENTER: 화면 밖에서 자연스럽게 등장.</li>
+<li>APPROACH: 가속/감속이 있는 이동.</li>
+<li>NOTICE: 주인공 발견 시 머리/귀/몸 방향 변화.</li>
+<li>WARNING: 명확한 공격 예고.</li>
+<li>ATTACK_PREPARE: 공격 종류별 고유 준비 자세.</li>
+<li>ATTACK: 짧은 순간 가속과 공격 동작.</li>
+<li>HIT: Hit Flash + Hit Stop + Knockback.</li>
+<li>RECOVER: 공격 후 몸을 추스르는 후속 동작.</li>
+<li>REPOSITION: 같은 자리 반복 공격을 피하고 위치를 변경.</li>
+</ul>
+
+<h3>14-9. 타격감</h3>
+<div class="flow">PLAYER ATTACK / SUPPORT ATTACK
+→ ENEMY HIT
+→ HIT FLASH
+→ 짧은 HIT STOP
+→ PIXEL IMPACT
+→ KNOCKBACK
+→ 아주 약한 CAMERA SHAKE
+→ HP 감소
+→ COMBO
+→ 묵찌빠 Gauge Reaction</div>
+<p>게임의 결과가 숫자 변화만으로 보이지 않도록 모든 공격 성공은 실제 캐릭터 동작과 피격 애니메이션으로 표현한다.</p>
+
+<h3>14-10. 배경음악 및 효과음 개선</h3>
+<p>Alpha 0.1.2의 BGM이 단조롭게 느껴지므로 Alpha 0.2.0에서는 스테이지 전체에서 한 곡을 단순 반복하지 않고 상황별 음악 변화를 적용한다.</p>
+
+<div class="flow">EXPLORE BGM
+→ ENEMY ENCOUNTER
+→ COMBAT LAYER
+→ BOSS BGM
+→ CLEAR / STORY BGM</div>
+
+<ul>
+<li>Stage 1 재개발: 쓸쓸한 피아노/8-bit Synth + 공사장 Ambient, 전투 시 Drum/Bass 강화.</li>
+<li>Stage 2 하천: 물소리 + 부드러운 Synth/Piano.</li>
+<li>Stage 3 시장: 경쾌하고 복잡한 리듬.</li>
+<li>Stage 4 밤의 도심: Neon Synth.</li>
+<li>Stage 5 놀이터: 망가진 오르골 + 쓸쓸한 멜로디.</li>
+<li>Stage 6 공업·창고: 금속성 Percussion / Industrial Rhythm.</li>
+<li>Stage 7 아파트: 일상 도시 Ambient → 긴장 전투음.</li>
+<li>Stage 8 폭우 고가도로: Rain Ambient + Low Bass.</li>
+<li>Stage 9 하수도: Dark Ambient + 물방울/공명.</li>
+<li>Stage 10 주택가: 따뜻한 Piano/Orgel, 가족 재회 시 Ending Theme.</li>
+</ul>
+
+<p>효과음은 일반 공격, 피격, 방어, 회피, 점프/착지, 적 Warning, Boss Warning, 묵찌빠 MAX, 계란이 반짝/할퀴기, 삼순이 회복, 남순이 돌진/몸통박치기, Stage Clear를 구분해 제작한다.</p>
+
+<h3>14-11. 최신 Astra/Codex 통합 개발 프롬프트</h3>
+<pre>
+[낭만고양이 Alpha 0.2.0 통합 개발 프롬프트]
+
+[현재 게임 정체성 — 최우선]
+공식 장르: 2D 횡스크롤 액션 어드벤처.
+이 게임을 '한글 타자 게임', '타자 액션 게임', '한글 타자 + 횡스크롤 액션'으로 정의하지 않는다.
+한글 타자/Android IME 방식은 Alpha 0.1.2까지의 구형 시스템이며 Alpha 0.2.0 실제 게임 플레이에서는 사용하지 않는다.
+현재 핵심 조작은 가상 조이스틱 + 공격/회피/방어이며, 점프는 조이스틱 위 방향으로 수행한다.
+묵찌빠 동료 특수기 시스템과 스토리 중심 진행이 게임의 주요 차별점이다.
+
+현재 《낭만고양이》 Alpha 0.1.2 Android Studio 프로젝트를 유일한 기준 프로젝트로 사용한다.
+새 프로젝트를 생성하거나 현재 프로젝트를 통째로 교체하지 않는다.
+이번 작업은 Alpha 0.1.2를 Alpha 0.2.0으로 발전시키는 작업이다.
+
+1. 먼저 현재 프로젝트를 Build하고 코드/Gradle/리소스/게임 루프/Player/Enemy/Boss/Stage/Wave/HUD/Combo/묵찌빠/Pause/Audio/기존 타자 IME 구조를 분석한다.
+2. 분석 전이나 사용자 승인 전에 대규모 리팩터링을 시작하지 않는다.
+3. 정상 작동하는 기존 기능은 최대한 보존하고 최소 변경으로 확장한다.
+
+[조작 체계 변경]
+기존 한글 타자 입력은 스마트폰 세로 화면에서 Android 키보드가 화면의 약 절반을 가려 몰입도를 저하시키므로 실제 게임플레이에서 제거한다.
+Alpha 0.2.0의 공식 조작은 ‘가상 조이스틱 + 액션 버튼’이다.
+
+- 왼쪽 하단 가상 조이스틱: 좌/우 이동, 위 방향 점프
+- 별도 점프 버튼 없음
+- 오른쪽 하단: 공격 / 회피 / 방어
+- SP 게이지 없음
+- 물약 기능 없음
+- 타자 입력창/TARGET WORD/CURRENT INPUT 없음
+- 주인공 기본 자원은 HP
+- 기존 타자/IME 코드는 우선 비활성화 또는 분리하고 즉시 삭제하지 않는다.
+
+[Portrait UI]
+상단은 HP, Stage, Boss HP, 진행 정보, 단일 메뉴 버튼.
+중앙은 최대한 넓은 실제 플레이 영역.
+하단은 왼쪽 조이스틱, 오른쪽 공격/회피/방어, 묵찌빠 특수 게이지.
+옵션/설정 버튼을 중복 배치하지 않는다.
+
+[게임 중 메뉴]
+메뉴는 하나만 사용한다.
+- 계속하기
+- 스토리
+- 설정
+- 스테이지 다시 시작
+- 타이틀로 돌아가기
+
+스토리는 인게임에 별도 버튼으로 두지 않고 메뉴에 포함한다.
+타이틀 복귀 시 Enemy/Wave/Boss/Combo/Timer/Animation/Coroutine/Game Loop 상태를 안전하게 정리하고 화면을 전환한다.
+
+[묵찌빠 시스템]
+묵찌빠는 3칸 게이지의 핵심 특수기 시스템이다.
+
+계란이(묵):
+실제 외형은 주황+흰색 치즈태비 수컷 고양이.
+공격 적중으로 충전.
+MAX 발동 시 주인공 뒤 왼쪽에서 달려와 주인공을 추월한 뒤 주인공 앞에서 ✨반짝!! 한다.
+그 후 적에게 재가속, 점프, 위→아래 앞발 할퀴기, Impact, 적 HP 감소, Knockback, 착지, 퇴장.
+
+삼순이(찌):
+실제 외형은 검정·주황·갈색 카오스/토터셸과 흰색 가슴·배·발을 가진 암컷 고양이.
+회피 성공으로 충전.
+MAX 발동 시 주인공에게 접근하고 몸을 붙이거나 비비며 ✨반짝반짝 회복 이펙트를 발생시킨다.
+회복 입자가 주인공에게 흡수되며 HP가 단계적으로 회복된 후 퇴장한다.
+
+남순이(빠):
+실제 외형은 흰색 바탕에 회색/검정 무늬가 있는 수컷 어린 고양이.
+강아지처럼 표현하지 않는다.
+콤보 마일스톤으로 충전.
+MAX 발동 시 주인공 뒤 왼쪽에서 달려와 주인공 앞에서 ✨반짝!! 한 뒤 몸을 낮추고 적에게 직선 고속 돌진한다.
+속도 잔상/먼지 → 몸통박치기 → Impact/Hit Stop → 적 피해 → 강한 Knockback → 반동/회복 → 퇴장.
+기존 구르기 공격은 사용하지 않는다.
+
+[특수기 캐릭터 디자인]
+현재 임시 특수기 스프라이트 디자인이 좋지 않으므로 실제 계란이/삼순이/남순이 사진 특징을 반영한 최신 픽셀아트 레퍼런스로 교체한다.
+세 캐릭터는 같은 게임 스타일을 공유하되 실루엣과 무늬, 크기에서 즉시 구분되어야 한다.
+특수기 동작이 작은 세로 스마트폰 화면에서도 읽히도록 머리, 앞발, 몸통의 핵심 동작을 약간 과장한다.
+
+[Stage 1 첫 스토리]
+재개발 철거 현장에서 가족과 헤어진 주인공은 외롭고 무서워 무너진 담벼락 옆에 웅크리고 있다.
+철거 현장 근처를 지나가던 계란이, 삼순이, 남순이가 주인공을 발견한다.
+세 마리는 겁먹은 주인공에게 다가가 가족을 찾는 것을 도와주기로 한다.
+
+남순이: “형… 저기 고양이 혼자 있어.”
+삼순이: “많이 무서운가 봐.”
+계란이: “여긴 위험해. 우선 저 녀석부터 데리고 나가자.”
+삼순이: “괜찮아. 우린 널 해치지 않아.”
+주인공: “엄마랑… 형제들이 없어졌어.”
+계란이: “그럼 찾아야지.”
+주인공: “……찾을 수 있을까?”
+계란이: “찾아보지도 않고 포기할 순 없잖아.”
+삼순이: “혼자 찾을 필요 없어.”
+남순이: “같이 가자! 우리가 도와줄게!”
+
+세 마리는 단순한 스킬 아이콘이 아니라 주인공과 여행을 함께하는 실제 친구들이다.
+평상시 항상 주인공 옆에 붙어 화면을 복잡하게 하지 않고 스토리 장면과 특수기 발동을 중심으로 등장한다.
+
+[Stage 10 엔딩]
+주인공은 마침내 엄마와 형제들을 찾아 재회한다.
+조금 떨어진 곳에서 계란이·삼순이·남순이가 이를 지켜본다.
+
+남순이: “우리도 가자!”
+계란이: “아니. 이제 됐어.”
+삼순이: “찾았잖아. 자기 가족.”
+
+주인공이 세 마리에게 다가가 인사한다.
+주인공: “고마워.”
+계란이: “가족 잘 지켜.”
+삼순이: “이제 혼자 있지 마.”
+남순이: “형! 다음에 또 만나!”
+
+세 마리는 골목을 따라 떠나고 주인공은 가족에게 돌아간다.
+마지막 문구:
+“집은 장소가 아니었다. 함께 있는 곳이, 집이었다.”
+“그리고 어떤 길은, 함께 걸어준 친구 덕분에 끝까지 갈 수 있었다.”
+
+[Enemy AI / Animation]
+Alpha 0.1.2의 적 움직임은 루즈하므로 MoveSpeed만 일괄 증가시키지 않는다.
+
+SPAWN → ENTER → APPROACH → NOTICE → WARNING → ATTACK_PREPARE → ATTACK → HIT/PLAYER RESPONSE → RECOVER → REPOSITION → NEXT ATTACK/RETREAT
+
+일반 적 최소 애니메이션:
+IDLE_LOOP / MOVE_LOOP / NOTICE / WARNING / ATTACK_PREPARE / ATTACK / HIT / KNOCKBACK / RECOVER / RETREAT
+
+적 종류별 움직임을 차별화한다.
+까마귀: 날갯짓/상승/정지/급강하
+개: 경계/웅크림/순간 가속/돌진
+쥐: 짧고 빠른 질주/방향 전환
+고양이: 하악질/몸 낮춤/덮치기/착지
+인간: 큰 예비 동작/추격
+기계: 센서 점등/활성화/공격 장치 전개
+
+[타격감]
+모든 성공 공격은 다음 흐름을 시각적으로 보여야 한다.
+Player/Support Attack → Enemy HIT → Hit Flash → 짧은 Hit Stop → Pixel Impact → Knockback → 약한 Camera Shake → HP 감소 → Combo → 묵찌빠 반응.
+숫자만 바뀌는 전투 결과는 허용하지 않는다.
+
+[Dynamic BGM / SFX]
+Alpha 0.1.2 BGM의 단조로운 반복을 개선한다.
+EXPLORE → ENCOUNTER → COMBAT LAYER → BOSS → CLEAR/STORY로 음악 상태를 나눈다.
+가능하면 곡을 갑자기 끊기보다 Crossfade/Layer 방식으로 전환한다.
+각 Stage는 고유 음악 색을 가진다.
+Stage 1 재개발은 쓸쓸한 피아노/8-bit Synth + 공사장 Ambient, 전투 시 Drum/Bass 강화.
+Stage 10 가족 재회는 전투음이 사라지고 따뜻한 Piano/Orgel Ending Theme으로 연결한다.
+
+BGM과 별도로 Ambient/SFX Channel을 둔다.
+일반 공격, 피격, 방어, 회피, 점프/착지, 적 Warning, Boss Warning, 묵찌빠 MAX, 계란이 할퀴기, 삼순이 회복, 남순이 몸통박치기, Stage Clear에 고유 SFX를 둔다.
+실제 최종 음원이 없다면 임의 저품질 음악을 최종 음원으로 간주하지 말고 Audio Manager와 상태 전환 구조부터 구현한다.
+
+[Stage 1 우선]
+10개 스테이지를 한꺼번에 수정하지 않는다.
+Stage 1을 Alpha 0.2.0 Vertical Slice로 먼저 완성한다.
+Joystick/Jump/Attack/Dodge/Guard → Enemy AI/Animation → 묵찌빠 → Pause/Menu/Title → Boss → BGM/SFX → Story Intro/Outro 순으로 검증한다.
+
+[코드 수정 전 보고]
+첫 응답에서는 대규모 코드 변경 없이 아래를 보고한다.
+A Alpha 0.1.2 프로젝트 구조
+B 현재 정상 작동 기능
+C 타자/IME 결합 상태
+D Joystick/Input 전환 설계
+E 유지/비활성화/수정할 코드
+F Portrait HUD 배치
+G Enemy AI/Animation 개선
+H Player Attack/Dodge/Guard Animation
+I 계란이/삼순이/남순이 특수기 구현 및 스프라이트 교체
+J Stage 1 새 Intro 시나리오 구현
+K Menu/Story/Title 구조
+L Dynamic BGM/SFX 구조
+M 수정 예상 파일
+N 신규 Class/File
+O Build/Test 계획
+P Alpha 0.2.0 구현 우선순위
+
+[완료 조건]
+Gradle Sync
+→ Build
+→ Emulator Run
+→ 키보드 미표시 확인
+→ 조이스틱 이동/점프
+→ 공격/회피/방어
+→ 적 AI/Animation
+→ Combo
+→ 묵찌빠 충전/특수기
+→ Pause/Menu/Story/Restart/Title
+→ Stage 1 Boss
+→ BGM 상태전환/SFX
+→ Stage 1 시작 스토리
+→ Stage Clear
+→ Debug APK 생성 확인
+
+Debug APK:
+app/build/outputs/apk/debug/app-debug.apk
+
+핵심 원칙:
+“새 게임을 만드는 것이 아니라 현재 《낭만고양이》 Alpha 0.1.2를 Alpha 0.2.0으로 발전시킨다.”
+</pre>
+</section>
+
+
+<section id="s15">
+<h2>15. 2026-09-10 최신 전투/UI/AI 업데이트</h2>
+
+<h3>15-1. 주인공 공격을 묵·찌·빠 3종으로 재설계</h3>
+<p>Alpha 0.2.0의 주인공 공격은 단일 공격 버튼 중심이 아니라 <strong>묵·찌·빠 3종 공격 스킬</strong>로 구분하는 방향을 현재 기준으로 사용한다. 각 공격은 단순 데미지 차이가 아니라 움직임과 용도가 확실히 달라야 한다.</p>
+<table>
+<tr><th>공격</th><th>동작</th><th>전투 성격</th></tr>
+<tr><td>👊 묵</td><td>지상에서 힘을 실은 강한 앞발 후려치기</td><td>강한 단발 데미지 / 넉백</td></tr>
+<tr><td>✌️ 찌</td><td><strong>높이 도약한 뒤 앞발로 내려치기</strong></td><td>공중 적 대응 / 수직 공격 / 착지 타격</td></tr>
+<tr><td>🖐️ 빠</td><td>몸을 낮추고 전방으로 빠르게 돌진</td><td>거리 좁히기 / 전진 공격 / 연계</td></tr>
+</table>
+<p>일반 이동 점프는 조이스틱 위 입력으로 유지하며, <strong>찌 공격의 도약은 공격용 특수 도약</strong>으로 구분한다.</p>
+
+<h3>15-2. 캐릭터 표시 크기 1.8배 확대</h3>
+<p>현재 플레이 영상에서 배경에 비해 캐릭터가 작아 액션이 잘 읽히지 않는 문제가 있으므로, 게임 플레이에 표시되는 캐릭터 크기를 <strong>현재 대비 1.8배</strong>로 확대한다.</p>
+<ul>
+<li>주인공: 현재 표시 크기의 1.8배.</li>
+<li>일반 적: 현재 표시 크기의 1.8배를 기본 기준으로 하되 적 종류별 체급 차이는 유지.</li>
+<li>계란이·삼순이·남순이: 특수기 발동 시 현재 대비 1.8배 기준으로 가독성을 확보.</li>
+<li>Boss: 주인공보다 명확히 큰 체급 관계를 유지한다.</li>
+<li>Sprite만 확대하지 말고 Collider/HitBox/HurtBox/Attack Range/Ground Offset/Camera Framing을 함께 재조정한다.</li>
+<li>확대 후 화면을 과도하게 가리지 않는지 실기기 Portrait 환경에서 반드시 확인한다.</li>
+</ul>
+
+<h3>15-3. 특수스킬 UI 위치 변경</h3>
+<p>계란이·삼순이·남순이 특수스킬 버튼/게이지는 하단 중앙의 큰 카드 형태에서 벗어나 <strong>왼쪽 하단 조이스틱 바로 위</strong>로 이동한다.</p>
+<div class="flow">[계란이 특수기]
+[삼순이 특수기]
+[남순이 특수기]
+
+      ↓
+
+[가상 조이스틱]</div>
+<p>오른쪽 조작 영역은 주인공의 묵·찌·빠 공격에 집중하고, 왼쪽은 이동 + 친구 특수기로 역할을 분리한다. 특수스킬 UI는 전투 화면을 가리지 않도록 작고 명확하게 구성하되 MAX 상태는 Glow/Pulse로 즉시 알아볼 수 있어야 한다.</p>
+
+<h3>15-4. 남순이 특수기 캐릭터 미표시 버그 — 최우선 수정</h3>
+<p>현재 남순이 특수기 발동 시 효과/로직은 실행되지만 <strong>남순이 캐릭터가 화면에 보이지 않는 버그</strong>가 있다. Alpha 0.2.0 다음 수정에서 우선적으로 해결한다.</p>
+<div class="flow">Gauge MAX
+→ Summon Trigger
+→ Namsuni Spawn
+→ Sprite/Animator 존재 확인
+→ visible=true / alpha=1
+→ 올바른 Render Layer / Z-Order
+→ 주인공 왼쪽 뒤 화면 안쪽에서 등장
+→ 주인공 추월
+→ 앞에서 잠시 정지
+→ ✨ 반짝!!
+→ 고속 직선 돌진
+→ 몸통박치기
+→ Impact + Hit Stop + Damage + Strong Knockback
+→ Recoil / Recover
+→ 오른쪽 퇴장
+→ Despawn</div>
+<p>다음 항목을 반드시 검사한다: 잘못된 Spawn 좌표, Camera 밖 생성, SpriteRenderer/Image 비활성, alpha=0, 잘못된 z-order, Animator state에서 hidden 처리, Sprite reference 누락, 너무 빠른 despawn, Coroutine 취소, parent clipping/mask 문제.</p>
+<p><strong>테스트 완료 조건:</strong> 남순이가 발동 순간부터 퇴장할 때까지 실제 캐릭터 스프라이트로 명확하게 보이고, 공격 판정과 애니메이션이 같은 위치에서 일치해야 한다.</p>
+
+<h3>15-5. 일반 적의 떼거리 추격 금지 — 개별 경비 구역 AI</h3>
+<p>현재 일반 적들이 한꺼번에 무리지어 주인공에게 달려오는 장면은 제거한다. 모든 일반 적은 서로 충분히 떨어진 위치에 배치하고, <strong>각자의 Home Position과 Patrol Area</strong>를 가진다.</p>
+
+<div class="flow">SPAWN
+→ HOME / PATROL
+→ 자기 구역 안에서 좌우 이동
+→ IDLE / TURN / PATROL 반복
+→ 주인공이 Detection Range 안으로 진입
+→ NOTICE
+→ WARNING
+→ APPROACH / CHASE
+→ ATTACK
+→ RECOVER
+→ 주인공이 Chase Limit 밖으로 이탈
+→ LOST_TARGET
+→ RETURN_HOME
+→ PATROL</div>
+
+<table>
+<tr><th>필수 값</th><th>역할</th></tr>
+<tr><td>HomePosition</td><td>적의 원래 경비 위치</td></tr>
+<tr><td>PatrolRadius / PatrolMinMax</td><td>좌우 순찰 허용 범위</td></tr>
+<tr><td>DetectionRange</td><td>주인공을 발견하는 감시 범위</td></tr>
+<tr><td>AttackRange</td><td>공격 실행 거리</td></tr>
+<tr><td>ChaseLimit</td><td>원래 위치에서 추격할 수 있는 최대 거리</td></tr>
+<tr><td>MinEnemySpacing</td><td>적 배치 최소 간격</td></tr>
+</table>
+
+<ul>
+<li>적들은 생성 단계부터 서로 겹치거나 한 지점에 몰리지 않게 배치한다.</li>
+<li>Stage 1에서는 적과 적 사이에 충분한 공간을 두어 한 번에 하나의 전투를 인식할 수 있게 한다.</li>
+<li>Detection Range가 서로 과도하게 겹치지 않게 한다.</li>
+<li>주인공이 감시 범위에 들어오기 전에는 자신의 위치 근처에서 좌우로 왕복한다.</li>
+<li>주인공이 범위에 들어왔을 때만 공격 상태로 전환한다.</li>
+<li>주인공이 멀리 도망가면 맵 끝까지 쫓아오지 말고 자기 위치로 복귀한다.</li>
+<li>여러 적이 동시에 감지되더라도 적극적으로 공격하는 적 수를 제한한다. 기본 목표는 동시 공격 1~2마리.</li>
+<li>대기 중인 적은 주변에서 재배치하거나 경계 애니메이션을 사용하고, 한꺼번에 캐릭터 위로 겹쳐 뛰어들지 않는다.</li>
+</ul>
+
+<h3>15-6. 최신 Portrait 조작 배치</h3>
+<div class="flow">┌─────────────────────────────┐
+│ HP / Stage              Menu│
+│                             │
+│         GAME VIEW           │
+│                             │
+│ [계란]                      │
+│ [삼순]              [묵]    │
+│ [남순]              [찌]    │
+│   ◯ Joystick         [빠]    │
+└─────────────────────────────┘</div>
+<p>이 배치는 개념 기준이다. 실제 위치/크기는 엄지손가락 접근성과 게임 화면 가림 정도를 보면서 조정한다. 별도 점프 버튼은 만들지 않는다.</p>
+
+<h3>15-7. Codex/Astra 적용 지시</h3>
+<pre>
+[2026-09-10 전투/UI/AI 추가 업데이트]
+
+현재 Alpha 0.2.0 프로젝트에 아래 변경을 적용하기 전에 기존 구현을 먼저 분석하고,
+수정 대상 파일과 예상 영향 범위를 보고한 뒤 작업한다.
+
+1. 주인공 전투 공격을 묵/찌/빠 3종 공격 체계로 정리한다.
+   - 묵: 강한 지상 앞발 후려치기
+   - 찌: 높이 뛰어올라 앞발로 내려치는 공격. 공중 적 대응 가능.
+   - 빠: 전방 고속 돌진 공격
+   - 일반 이동 점프는 조이스틱 위 방향 입력으로 유지.
+   - 찌의 도약은 공격용 도약이다.
+
+2. 플레이 캐릭터/일반 적/지원 고양이의 화면 표시 크기를 현재 대비 1.8배로 확대한다.
+   Sprite만 키우지 말고 Collider, HitBox, HurtBox, Ground Offset,
+   Attack Range와 Camera Framing을 함께 조정한다.
+
+3. 계란이/삼순이/남순이 특수스킬 UI를 왼쪽 조이스틱 바로 위로 이동한다.
+   오른쪽에는 주인공 묵/찌/빠 공격 UI를 배치한다.
+
+4. 남순이 특수기 미표시 버그를 최우선으로 수정한다.
+   Summon Spawn 좌표, Sprite/Animator reference, visible/alpha,
+   Render Layer/Z-order, clipping, animation hidden state, despawn timing을 검사한다.
+   발동부터 퇴장까지 남순이가 명확하게 화면에 보여야 한다.
+
+5. 일반 적이 떼거리로 플레이어에게 달려오는 구조를 폐기한다.
+   각 적에게 HomePosition, PatrolRange, DetectionRange, AttackRange,
+   ChaseLimit을 부여한다.
+
+6. 일반 적은 자기 HomePosition 근처에서 좌우로 Patrol한다.
+   플레이어가 DetectionRange 안에 들어왔을 때만
+   NOTICE → WARNING → APPROACH → ATTACK으로 전환한다.
+
+7. 플레이어가 ChaseLimit 밖으로 벗어나면
+   LOST_TARGET → RETURN_HOME → PATROL로 복귀한다.
+   맵 끝까지 계속 쫓아오지 않는다.
+
+8. 적 Spawn 위치를 서로 충분히 떨어뜨리고 DetectionRange가 지나치게 겹치지 않게 한다.
+   여러 적이 감지되더라도 적극 공격자는 기본 1~2마리로 제한한다.
+
+9. Stage 1에서 먼저 검증한다.
+   - 캐릭터 1.8배 표시
+   - 묵/찌/빠 공격
+   - 찌 도약 공격
+   - 지원 스킬 UI 위치
+   - 남순이 표시
+   - Enemy Patrol
+   - Detection
+   - Chase Limit
+   - Return Home
+   - 동시 공격 제한
+
+10. 기존 프로젝트를 새로 만들지 말고 현재 Alpha 0.2.0 프로젝트를 수정한다.
+</pre>
+
+<h3>15-8. BGM 노이즈 제거 및 Clean 16-bit Audio 규칙</h3>
+<p>현재 일부 배경 BGM에서 <strong>치지직/지지직거리는 불쾌한 잡음</strong>이 들리는 문제가 있으므로, Alpha 0.2.0에서는 모든 BGM을 <strong>깨끗하고 선명한 16-bit 레트로 게임풍 사운드</strong>로 제작/재생한다.</p>
+<ul>
+<li><strong>금지:</strong> 치지직, 지지직, 화이트 노이즈, 라디오 잡음, 테이프 히스, 전기 노이즈, 디지털 깨짐, 과도한 디스토션, 클리핑.</li>
+<li>폐허/재개발/비/하수도 분위기를 표현하더라도 BGM 자체를 노이즈로 더럽히지 않는다.</li>
+<li>16-bit 감성은 Square/Pulse, Triangle, 깨끗한 FM Synth, 짧고 선명한 PCM Drum, Retro Bass 등으로 표현한다.</li>
+<li>공사장/바람/비/금속음/물방울 같은 환경음은 <strong>BGM과 별도 Ambient 채널</strong>로 분리한다.</li>
+<li>스마트폰 스피커에서도 찢어지거나 지글거리지 않도록 Peak Level과 clipping을 관리한다.</li>
+<li>Stage 1은 쓸쓸한 16-bit 멜로디 + 따뜻한 Synth/Piano를 기본으로 하고, 전투 시 깨끗한 Retro Drum/Bass Layer를 추가한다.</li>
+</ul>
+
+<div class="flow">BGM 품질 기준
+Clean 16-bit Tone
+→ No Static / No Hiss / No Crackle
+→ No Clipping / No Harsh Distortion
+→ Clear Melody / Bass / Drum
+→ Ambient는 별도 채널
+→ Smartphone Speaker에서 노이즈 없이 재생</div>
+
+<h3>15-9. Codex/Astra 오디오 수정 지시</h3>
+<pre>
+[Audio Fix - Clean 16-bit Rule]
+
+1. 현재 BGM 재생 중 발생하는 치지직/지지직/화이트 노이즈를 제거한다.
+2. 잡음이 오디오 파일 자체 문제인지, 재생 엔진/볼륨/샘플레이트/클리핑 문제인지 먼저 확인한다.
+3. 16-bit 감성을 노이즈로 표현하지 않는다.
+4. 모든 BGM은 clean retro tone을 사용한다.
+5. 허용: Square/Pulse, Triangle, clean FM Synth, short PCM Drum, retro bass.
+6. 금지: static, hiss, radio noise, tape noise, electric buzz, crackle, clipping, harsh distortion.
+7. 공사장/비/하수도/바람 등은 별도의 Ambient Channel로 처리한다.
+8. BGM과 Ambient 볼륨을 독립적으로 제어할 수 있게 한다.
+9. 스마트폰 실기기에서 최대 BGM 볼륨에서도 찢어짐/지글거림/클리핑이 없어야 한다.
+10. Stage 1은 wistful clean 16-bit melody + warm synth/piano, combat에서는 clean retro drum/bass layer를 사용한다.
+
+완료 테스트:
+- 탐색 BGM 60초 이상 재생
+- 전투 BGM 전환
+- Boss BGM 전환
+- Pause/Resume
+- 이어폰/스마트폰 스피커 확인
+- 치지직/지지직/화이트 노이즈 없음
+- clipping 없음
+</pre>
+</section>
+
+<div class="footer">
+  낭만고양이 · Game Development Master Specification · 2026-09-09
+</div>
+</div>
+
+</div></div>
+
+<div id="history" class="tab"><div class="shell">
+<h1>HISTORY · 업데이트 이력</h1>
+<p class="note">버전별 변경사항을 누적 기록한다. 최신 항목이 위에 위치한다.</p>
+<article class="history-card latest">
+<h3>2026-09-10 · BGM Clean 16-bit Audio 규칙 추가</h3>
+<ul>
+<li>BGM의 치지직/지지직/화이트 노이즈/히스/클리핑/과도한 디스토션 금지.</li>
+<li>16-bit 감성은 깨끗한 Square/Pulse, Triangle, FM Synth, PCM Drum으로 표현.</li>
+<li>환경음은 BGM과 분리된 Ambient 채널로 처리.</li>
+<li>스마트폰 스피커에서도 찢어짐과 지글거림이 없도록 레벨 및 clipping 관리.</li>
+<li>Stage 1은 clean 16-bit melody + warm synth/piano, 전투 시 retro drum/bass layer 사용.</li>
+</ul>
+</article>
+
+
+<article class="history-card latest">
+<h3>2026-09-10 · 전투/UI/Enemy AI 업데이트</h3>
+<ul>
+<li>주인공 공격을 묵/찌/빠 3종 공격 체계로 정리.</li>
+<li>찌 공격 = 높이 도약 → 앞발 내려치기.</li>
+<li>게임 캐릭터 표시 크기 현재 대비 1.8배 확대.</li>
+<li>계란이·삼순이·남순이 특수스킬 UI를 조이스틱 위로 이동.</li>
+<li>남순이 특수기 발동 시 캐릭터가 안 보이는 버그를 최우선 수정 대상으로 지정.</li>
+<li>일반 적 떼거리 추격 폐기. 각 적이 자기 위치에서 Patrol하고 Detection Range 진입 시 공격.</li>
+<li>Chase Limit 밖으로 나가면 Return Home.</li>
+<li>적 Spawn 간격 확대 및 동시 적극 공격자 1~2마리 제한.</li>
+</ul>
+</article>
+
+<article class="history-card">
+<h3>2026-09-10 · Stage 1 동료 스토리 업데이트</h3>
+<ul>
+<li>철거 현장에서 혼자 겁먹은 주인공을 지나가던 계란이·삼순이·남순이가 발견.</li>
+<li>세 마리가 가족 찾기를 함께 도와주기로 하는 첫 만남 장면 추가.</li>
+<li>Stage 10 가족 재회 후 세 친구가 인사하고 골목으로 떠나는 엔딩 추가.</li>
+</ul>
+</article>
+
+<article class="history-card">
+<h3>Alpha 0.2.0 · 조이스틱 액션 전환</h3>
+<ul>
+<li>공식 장르를 2D 횡스크롤 액션 어드벤처로 확정.</li>
+<li>Android IME/한글 타자 입력은 구형 Alpha 0.1.2 시스템으로 분리.</li>
+<li>Portrait 조이스틱 기반 액션 조작으로 전환.</li>
+<li>SP, 물약, 별도 점프 버튼 제거.</li>
+<li>묵찌빠 동료 특수기 시스템과 스토리 중심 진행을 핵심 차별점으로 유지.</li>
+</ul>
+</article>
+
+</div></div>
+</body></html>
