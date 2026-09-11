@@ -79,6 +79,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeConcept();});
 <a href="#s15">09-10 전투/UI/AI</a>
 <a href="#s16">09-11 조이스틱/숙이기</a>
 <a href="#s17">특수스킬 버그 수정</a>
+<a href="#s18">특수스킬 SFX</a>
 </div></nav>
 <div class="wrap">
 <div class="hero">
@@ -1116,6 +1117,89 @@ Clean 16-bit Tone
 <p>이 레퍼런스는 조이스틱 방향 표시와 하단 전투 UI 배치의 최신 기준 이미지로 사용한다. 텍스트 기획과 이미지가 충돌할 경우 MASTER의 최신 확정사항을 우선한다.</p>
 </section>
 
+
+<section id="s18">
+<h2>18. 2026-09-11 · 특수스킬 전용 SFX 시스템</h2>
+
+<h3>18-1. 공통 사운드 시퀀스</h3>
+<div class="flow">특수기 버튼 입력
+→ 고양이 등장
+→ ✨ 등장 반짝 SFX
+→ 캐릭터 전용 울음소리
+→ 공격/회복 동작
+→ Impact 또는 Heal 타이밍
+→ 전용 타격/회복 SFX</div>
+<ul>
+<li>계란이·삼순이·남순이 등장 시 짧고 맑은 <strong>Sparkle/Chime</strong> 효과음을 사용한다.</li>
+<li>등장 반짝음은 약 0.3~0.6초의 Clean 16-bit 상승형 효과음을 기준으로 한다.</li>
+<li>고양이 울음소리는 특수기 개성을 나타내는 캐릭터 전용 Voice SFX로 사용한다.</li>
+<li>울음소리는 Impact 순간과 겹치지 않도록 공격/회복 직전 약 0.2~0.5초 앞에 배치한다.</li>
+</ul>
+
+<h3>18-2. 계란이 특수스킬 SFX</h3>
+<div class="flow">등장 → Sparkle → 계란이 울음
+→ 재가속 → 점프 → 앞발 할퀴기
+→ CLAW SLASH + IMPACT
+→ HIT STOP + DAMAGE + KNOCKBACK</div>
+<ul>
+<li>앞발 할퀴기 Impact Frame에 Claw Slash와 짧고 선명한 Impact SFX를 결합한다.</li>
+<li>타격음, Hit Flash, Hit Stop, 실제 적 HP 감소, Knockback이 같은 Impact Trigger에서 발생해야 한다.</li>
+</ul>
+
+<h3>18-3. 삼순이 특수스킬 SFX</h3>
+<div class="flow">등장 → Soft Sparkle → 삼순이 울음
+→ 몸 비빔 → 회복 입자
+→ HEALING CHIME
+→ HP 단계 회복 → 완료 CHIME</div>
+<ul>
+<li>삼순이는 공격 타격음 대신 부드러운 회복 전용 Sparkle/Healing Chime을 사용한다.</li>
+<li>단계적 HP 회복에 맞춰 작은 Chime을 사용할 수 있으며 완료 시 짧은 완료음을 재생한다.</li>
+</ul>
+
+<h3>18-4. 남순이 특수스킬 SFX</h3>
+<div class="flow">등장 → Sparkle → 남순이 울음
+→ 몸 낮춤 → DASH WHOOSH
+→ 고속 돌진 → BODY IMPACT
+→ HIT STOP + DAMAGE + STRONG KNOCKBACK</div>
+<ul>
+<li>돌진 시작 시 짧은 Dash Whoosh를 사용한다.</li>
+<li>몸통박치기 Impact Frame에는 묵직한 Heavy Body Impact SFX를 사용한다.</li>
+<li>Impact SFX, Hit Stop, 실제 적 HP 감소, Strong Knockback을 같은 타이밍에 연결한다.</li>
+</ul>
+
+<h3>18-5. Damage / SFX 동기화 규칙</h3>
+<div class="flow">IMPACT_FRAME
+→ PLAY_IMPACT_SFX
+→ HIT_FLASH
+→ HIT_STOP
+→ APPLY_DAMAGE
+→ HP 감소 표시
+→ KNOCKBACK
+→ CAMERA_SHAKE</div>
+<ul>
+<li>계란이와 남순이의 타격음은 실제 Damage가 적용되는 프레임과 정확히 동기화한다.</li>
+<li>애니메이션만 적중하고 HP가 감소하지 않는 현상을 방지하기 위해 SFX와 Damage를 동일 Impact Trigger에서 호출한다.</li>
+<li>한 번의 공격에 Damage/SFX가 중복 발생하지 않도록 hasHit 또는 oneShot 플래그를 사용한다.</li>
+</ul>
+
+<h3>18-6. Audio Channel</h3>
+<table>
+<tr><th>채널</th><th>용도</th></tr>
+<tr><td>BGM</td><td>메인 타이틀 / 스테이지 / 전투 / 보스 음악</td></tr>
+<tr><td>Ambient</td><td>공사장, 하천, 바람, 비 등 환경음</td></tr>
+<tr><td>SFX</td><td>등장 Sparkle, Claw Slash, Impact, Dash Whoosh, Healing Chime</td></tr>
+<tr><td>Voice</td><td>계란이·삼순이·남순이 울음소리</td></tr>
+</table>
+
+<h3>18-7. 사운드 품질 기준</h3>
+<ul>
+<li>기존 <strong>Clean 16-bit</strong> 오디오 기준을 그대로 유지한다.</li>
+<li>Static, Crackle, Hiss, White Noise, Tape Hiss, Electric Buzz, Digital Breakup, Clipping, 과도한 Distortion을 사용하지 않는다.</li>
+<li>스마트폰 스피커에서도 지지직거림 없이 재생되도록 Peak Level을 관리한다.</li>
+<li>울음소리는 과도한 변조 없이 원래 개성을 유지하며 Volume/Pitch는 필요한 범위에서만 소폭 보정한다.</li>
+</ul>
+</section>
+
 </div></div>
 
 
@@ -1239,6 +1323,21 @@ target.x &lt; player.x → LEFT_ATTACK</div>
 <p class="note">버전별 변경사항을 누적 기록한다. 최신 항목이 위에 위치한다.</p>
 
 <article class="history-card latest">
+<h3>2026-09-11 · 특수스킬 전용 SFX 시스템 추가</h3>
+<ul>
+<li>계란이·삼순이·남순이 등장 시 0.3~0.6초 Clean 16-bit Sparkle/Chime 이벤트음 추가.</li>
+<li>각 고양이의 실제 울음소리를 캐릭터 전용 Voice SFX로 사용하고 공격/회복 직전에 배치.</li>
+<li>계란이: Claw Slash + Impact SFX를 앞발 할퀴기 Impact Frame에 적용.</li>
+<li>삼순이: Soft Sparkle + Healing Chime + 회복 완료음을 HP 회복 연출에 적용.</li>
+<li>남순이: Dash Whoosh + Heavy Body Impact SFX를 돌진/몸통박치기에 적용.</li>
+<li>계란이·남순이는 Impact SFX / Hit Flash / Hit Stop / Damage / Knockback을 동일 Trigger로 동기화.</li>
+<li>BGM / Ambient / SFX / Voice 채널을 분리하여 믹싱 기준을 명확히 함.</li>
+<li>기존 Clean 16-bit 원칙과 무노이즈·무클리핑 기준 유지.</li>
+</ul>
+</article>
+
+
+<article class="history-card">
 <h3>2026-09-11 · 계란이/남순이 특수스킬 타깃·데미지 수정</h3>
 <ul>
 <li>계란이/남순이 특수기 Impact 시 실제 적 HP Damage가 적용되도록 수정 기준 추가.</li>
